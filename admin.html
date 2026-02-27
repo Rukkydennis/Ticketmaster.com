@@ -3,261 +3,338 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TM Admin - Ticket Manager</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
+        :root {
+            --tm-blue: #026cdf;
+            --tm-dark-blue: #0158b8;
+            --tm-text: #262626;
+            --tm-gray: #757575;
+            --tm-border: #e0e0e0;
+            --tm-header-bg: #1f2632;
+        }
+
+        html,
         body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
             font-family: 'Inter', sans-serif;
-            background: #f0f2f5;
-            padding: 20px;
-            color: #1f2632;
         }
 
-        .admin-box {
-            max-width: 900px;
+        .app-container {
+            width: 100vw;
+            max-width: 450px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: #fff;
+            overflow: hidden;
         }
 
-        h1 {
-            color: #026cdf;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            font-weight: 800;
-            font-size: 24px;
+        /* HEADER */
+        .tm-header {
+            background: var(--tm-header-bg);
+            color: #fff;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            height: 60px;
+            flex-shrink: 0;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: 700;
-            margin-bottom: 6px;
-            font-size: 13px;
-            text-transform: uppercase;
-            color: #555;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+        .back-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            text-decoration: none;
             font-size: 14px;
-            transition: 0.2s;
+            font-weight: 700;
+            width: 60px;
+            display: flex;
+            align-items: center;
         }
 
-        input:focus {
-            border-color: #026cdf;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(2, 108, 223, 0.1);
+        .header-title {
+            font-weight: 700;
+            font-size: 17px;
+            letter-spacing: -0.2px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .header-spacer {
+            width: 60px;
+        }
+
+        /* CONTENT */
+        .content-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+            -webkit-overflow-scrolling: touch;
         }
 
         .section-title {
-            grid-column: span 2;
-            background: #f8f9fa;
-            padding: 12px;
+            background: #f1f5f9;
+            padding: 10px 12px;
             font-weight: 800;
-            margin-top: 15px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #475569;
             border-radius: 6px;
-            color: #333;
+            margin: 20px 0 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .btn-save {
-            background: #026cdf;
-            color: white;
-            border: none;
-            padding: 16px;
-            width: 100%;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 30px;
-            font-size: 16px;
-            box-shadow: 0 4px 12px rgba(2, 108, 223, 0.3);
+        .section-title:first-child {
+            margin-top: 0;
         }
 
-        .btn-add-seat {
-            background: #000;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
+        .form-row {
+            margin-bottom: 15px;
+        }
+
+        .form-row label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            color: #64748b;
+        }
+
+        .form-row input {
+            width: 100%;
+            padding: 12px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-row input:focus {
+            border-color: var(--tm-blue);
+            outline: none;
         }
 
         .seat-item {
-            display: flex;
-            gap: 10px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px;
             margin-bottom: 10px;
-            align-items: flex-end;
-            grid-column: span 2;
+            position: relative;
+        }
+
+        .seat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
         .btn-remove {
-            background: #fee2e2;
-            color: #b91c1c;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
             border: none;
-            padding: 12px;
-            border-radius: 8px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-add-seat {
+            background: #1f2632;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
             cursor: pointer;
         }
 
-        .preview-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #026cdf;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
+        /* FOOTER */
+        .fixed-footer {
+            width: 100%;
+            padding: 16px 20px calc(16px + env(safe-area-inset-top));
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+            z-index: 1100;
+        }
+
+        .btn-save {
+            flex: 1;
+            height: 52px;
+            background: var(--tm-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .btn-save:active {
+            background: var(--tm-dark-blue);
+            transform: scale(0.98);
         }
     </style>
 </head>
 
 <body>
 
-    <div class="admin-box">
-        <h1>Ticketmaster Admin Panel</h1>
-        <div class="grid">
+    <div class="app-container">
+        <header class="tm-header">
+            <a href="index.html" class="back-btn">← Back</a>
+            <div class="header-title">Admin Config</div>
+            <div class="header-spacer"></div>
+        </header>
+
+        <div class="content-scroll">
             <div class="section-title">Event Information</div>
-            <div class="form-group">
+            <div class="form-row">
                 <label>Event Name</label>
-                <input type="text" id="eventName" value="Taylor Swift | The Eras Tour">
+                <input type="text" id="eventName">
             </div>
-            <div class="form-group">
-                <label>Event Date (Complete String)</label>
-                <input type="text" id="eventDate" value="Fri • Jul 15, 2026 • 7:00 PM">
+            <div class="form-row">
+                <label>Full Date String</label>
+                <input type="text" id="eventDate">
             </div>
-            <div class="form-group" style="grid-column: span 2;">
+            <div class="form-row">
                 <label>Venue & Location</label>
-                <input type="text" id="venue" value="SoFi Stadium • Inglewood, CA">
+                <input type="text" id="venue">
             </div>
-            <div class="form-group" style="grid-column: span 2;">
-                <label>Event Image URL</label>
-                <input type="text" id="imageUrl"
-                    value="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&q=80&w=1000">
+            <div class="form-row">
+                <label>Banner Image URL</label>
+                <input type="text" id="imageUrl">
             </div>
 
             <div class="section-title">
                 <span>Ticket Seats</span>
-                <button class="btn-add-seat" onclick="addSeat()">+ Add Seat</button>
+                <button class="btn-add-seat" onclick="addSeat()">Add Seat+</button>
             </div>
-            <div id="seatsContainer" style="grid-column: span 2;">
-                <!-- Seats will be added here -->
+            <div id="seatsContainer"></div>
+
+            <div class="section-title">Ownership Bill (Screen 4)</div>
+            <div class="form-row">
+                <label>Bill Total ($)</label>
+                <input type="text" id="bill1Total">
+            </div>
+            <div class="form-row">
+                <label>Invoice ID Prefix</label>
+                <input type="text" id="bill1ID">
             </div>
 
-            <div class="section-title">Ownership Bill Pricing (First Hurdle)</div>
-            <div class="form-group">
-                <label>Ownership Bill Total ($)</label>
-                <input type="text" id="bill1Total" value="65.00">
+            <div class="section-title">Venue Claim Fee (Screen 6)</div>
+            <div class="form-row">
+                <label>Fee Total ($)</label>
+                <input type="text" id="bill2Total">
             </div>
-            <div class="form-group">
-                <label>Bill 1 ID Prefix</label>
-                <input type="text" id="bill1ID" value="OWN-7721">
+            <div class="form-row">
+                <label>Invoice ID Prefix</label>
+                <input type="text" id="bill2ID">
             </div>
 
-            <div class="section-title">Venue Claim Fee Pricing (Final Hurdle)</div>
-            <div class="form-group">
-                <label>Venue Claim Total ($)</label>
-                <input type="text" id="bill2Total" value="70.00">
-            </div>
-            <div class="form-group">
-                <label>Bill 2 ID Prefix</label>
-                <input type="text" id="bill2ID" value="V-8821">
-            </div>
+            <div style="height: 20px;"></div>
         </div>
 
-        <button class="btn-save" onclick="saveAdminData()">Update Ticket Display & Pricing</button>
-        <a href="index.html" target="_blank" class="preview-link">Open My Tickets Simulator →</a>
+        <div class="fixed-footer">
+            <button class="btn-save" onclick="saveAdminData()">Update Configuration</button>
+        </div>
     </div>
 
     <script>
-    let seatCount = 0;
+        let seatCount = 0;
 
-    function addSeat(sec = '102', row = '15', seat = '') {
-        seatCount++;
-        const div = document.createElement('div');
-        div.className = 'seat-item';
-        div.id = 'seat_group_' + seatCount;
-        div.innerHTML = `
-            <div style="flex:1"><label>Sec</label><input type="text" class="s-sec" value="${sec}"></div>
-            <div style="flex:1"><label>Row</label><input type="text" class="s-row" value="${row}"></div>
-            <div style="flex:1"><label>Seat</label><input type="text" class="s-num" value="${seat || seatCount}"></div>
+        function addSeat(sec = '102', row = '15', seat = '') {
+            seatCount++;
+            const div = document.createElement('div');
+            div.className = 'seat-item';
+            div.id = 'seat_group_' + seatCount;
+            div.innerHTML = `
             <button class="btn-remove" onclick="removeSeat('${div.id}')">✕</button>
+            <div class="seat-grid">
+                <div><label>Sec</label><input type="text" class="s-sec" value="${sec}"></div>
+                <div><label>Row</label><input type="text" class="s-row" value="${row}"></div>
+                <div><label>Seat</label><input type="text" class="s-num" value="${seat || seatCount}"></div>
+            </div>
         `;
-        document.getElementById('seatsContainer').appendChild(div);
-    }
-
-    function removeSeat(id) {
-        document.getElementById(id).remove();
-    }
-
-    function saveAdminData() {
-        const seats = [];
-        document.querySelectorAll('.seat-item').forEach(item => {
-            seats.push({
-                sec: item.querySelector('.s-sec').value,
-                row: item.querySelector('.s-row').value,
-                num: item.querySelector('.s-num').value
-            });
-        });
-
-        const data = {
-            eventName: document.getElementById('eventName').value,
-            eventDate: document.getElementById('eventDate').value,
-            venue: document.getElementById('venue').value,
-            imageUrl: document.getElementById('imageUrl').value,
-            seats: seats,
-            bill1Total: document.getElementById('bill1Total').value,
-            bill1ID: document.getElementById('bill1ID').value,
-            bill2Total: document.getElementById('bill2Total').value,
-            bill2ID: document.getElementById('bill2ID').value
-        };
-        localStorage.setItem('tm_ticket_data_v2', JSON.stringify(data));
-        alert('Configuration saved! All screens will update.');
-    }
-
-    window.onload = () => {
-        const saved = localStorage.getItem('tm_ticket_data_v2');
-        if (saved) {
-            const data = JSON.parse(saved);
-            document.getElementById('eventName').value = data.eventName;
-            document.getElementById('eventDate').value = data.eventDate;
-            document.getElementById('venue').value = data.venue;
-            document.getElementById('imageUrl').value = data.imageUrl;
-            document.getElementById('bill1Total').value = data.bill1Total;
-            document.getElementById('bill1ID').value = data.bill1ID;
-            document.getElementById('bill2Total').value = data.bill2Total;
-            document.getElementById('bill2ID').value = data.bill2ID;
-            
-            data.seats.forEach(s => addSeat(s.sec, s.row, s.num));
-        } else {
-            addSeat('102', '15', '3');
-            addSeat('102', '15', '4');
+            document.getElementById('seatsContainer').appendChild(div);
         }
-    };
+
+        function removeSeat(id) {
+            document.getElementById(id).remove();
+        }
+
+        function saveAdminData() {
+            const seats = [];
+            document.querySelectorAll('.seat-item').forEach(item => {
+                seats.push({
+                    sec: item.querySelector('.s-sec').value,
+                    row: item.querySelector('.s-row').value,
+                    num: item.querySelector('.s-num').value
+                });
+            });
+
+            const data = {
+                eventName: document.getElementById('eventName').value,
+                eventDate: document.getElementById('eventDate').value,
+                venue: document.getElementById('venue').value,
+                imageUrl: document.getElementById('imageUrl').value,
+                seats: seats,
+                bill1Total: document.getElementById('bill1Total').value,
+                bill1ID: document.getElementById('bill1ID').value,
+                bill2Total: document.getElementById('bill2Total').value,
+                bill2ID: document.getElementById('bill2ID').value
+            };
+            localStorage.setItem('tm_ticket_data_v2', JSON.stringify(data));
+            alert('Configuration saved!');
+        }
+
+        window.onload = () => {
+            const saved = localStorage.getItem('tm_ticket_data_v2');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('eventName').value = data.eventName;
+                document.getElementById('eventDate').value = data.eventDate;
+                document.getElementById('venue').value = data.venue;
+                document.getElementById('imageUrl').value = data.imageUrl;
+                document.getElementById('bill1Total').value = data.bill1Total;
+                document.getElementById('bill1ID').value = data.bill1ID;
+                document.getElementById('bill2Total').value = data.bill2Total;
+                document.getElementById('bill2ID').value = data.bill2ID;
+
+                data.seats.forEach(s => addSeat(s.sec, s.row, s.num));
+            } else {
+                addSeat('102', '15', '3');
+                addSeat('102', '15', '4');
+            }
+        };
     </script>
 </body>
 
