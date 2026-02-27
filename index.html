@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ticketmaster - My Tickets</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        :root {
+            --tm-blue: #026cdf;
+            --tm-dark-blue: #0158b8;
+            --tm-text: #262626;
+            --tm-gray: #757575;
+            --tm-border: #e0e0e0;
+            --tm-error: #d32f2f;
+            --tm-success: #10b981;
+            --tm-header-bg: #1f2632;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #fff;
+            color: var(--tm-text);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100vw;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        .tm-header {
+            background: var(--tm-header-bg);
+            color: white;
+            padding: env(safe-area-inset-top) 20px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            opacity: 0.9;
+        }
+
+        .header-title {
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: -0.2px;
+        }
+
+        /* SCREENS */
+        .screen {
+            display: none;
+            flex: 1;
+            animation: slideIn 0.25s ease-out;
+            width: 100%;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* SCREEN 1: MAIN TICKET */
+        .event-banner {
+            background: var(--tm-header-bg);
+            position: relative;
+            width: 100%;
+            padding-bottom: 20px;
+        }
+
+        .event-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 4px solid var(--tm-blue);
+        }
+
+        .event-info-box {
+            padding: 15px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .event-title {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .event-sub {
+            font-size: 14px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .ticket-scroll-area {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .ticket-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid var(--tm-border);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 80px;
+        }
+
+        .card-top-bar {
+            background: var(--tm-blue);
+            color: #fff;
+            padding: 10px;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: 1.5px;
+        }
+
+        .seat-grid {
+            display: flex;
+            justify-content: space-around;
+            padding: 25px 10px;
+            border-bottom: 1px dashed var(--tm-border);
+            text-align: center;
+        }
+
+        .label {
+            display: block;
+            font-size: 10px;
+            color: var(--tm-gray);
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            font-size: 24px;
+            font-weight: 900;
+            color: #000;
+        }
+
+        .barcode-section {
+            padding: 35px 25px;
+            text-align: center;
+            background: #fafafa;
+        }
+
+        .barcode-graphic {
+            width: 100%;
+            height: 100px;
+            background: repeating-linear-gradient(90deg, #000 0 1px, #fff 1px 4px);
+            position: relative;
+            border-radius: 4px;
+        }
+
+        .safe-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 6px;
+            background: var(--tm-blue);
+            animation: sweep 2s infinite alternate ease-in-out;
+            box-shadow: 0 0 20px var(--tm-blue);
+        }
+
+        @keyframes sweep {
+            from {
+                left: 0%;
+            }
+
+            to {
+                left: calc(100% - 6px);
+            }
+        }
+
+        .safetix-logo {
+            font-size: 11px;
+            font-weight: 800;
+            color: #888;
+            margin-top: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* FOOTER NAV */
+        .fixed-footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 480px;
+            padding: 15px 20px env(safe-area-inset-bottom);
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .btn {
+            padding: 16px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 800;
+            font-size: 15px;
+            cursor: pointer;
+            transition: active 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:active {
+            opacity: 0.8;
+            transform: scale(0.98);
+        }
+
+        .btn-blue {
+            background: var(--tm-blue);
+            color: #fff;
+        }
+
+        .btn-outline {
+            background: #fff;
+            color: var(--tm-blue);
+            border: 1px solid var(--tm-blue);
+        }
+
+        /* REUSABLE STYLES */
+        .p-25 {
+            padding: 25px;
+        }
+
+        .heading {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .desc {
+            font-size: 15px;
+            color: var(--tm-gray);
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        /* SPLIT ERROR */
+        .error-alert {
+            background: #fef2f2;
+            border: 1.5px solid #fee2e2;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: var(--tm-error);
+            display: none;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .error-alert.show {
+            display: flex;
+        }
+
+        /* SELECTION LIST */
+        .select-card {
+            border: 1.5px solid #eee;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .select-card.active {
+            border-color: var(--tm-blue);
+            background: #f0f7ff;
+        }
+
+        .checkbox-ui {
+            width: 24px;
+            height: 24px;
+            border: 2.5px solid #ddd;
+            border-radius: 50%;
+            margin-right: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .active .checkbox-ui {
+            background: var(--tm-blue);
+            border-color: var(--tm-blue);
+        }
+
+        .active .checkbox-ui::after {
+            content: '✓';
+            color: #fff;
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        /* FORM */
+        .form-row {
+            margin-bottom: 18px;
+        }
+
+        .form-row label {
+            display: block;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            color: #666;
+        }
+
+        .form-row input {
+            width: 100%;
+            padding: 16px;
+            border: 1.5px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #fff;
+        }
+
+        .form-row input:focus {
+            border-color: var(--tm-blue);
+            outline: none;
+        }
+
+        /* BILLS */
+        .invoice-box {
+            background: #fdfdfd;
+            border: 1.5px solid #eee;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+
+        .invoice-head {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            border-bottom: 1.5px solid #f5f5f5;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+
+        .inv-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #444;
+        }
+
+        .inv-total {
+            border-top: 2px solid #000;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-weight: 900;
+            font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .status-chip {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .chip-wait {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .chip-transit {
+            background: #f0f9ff;
+            color: #0369a1;
+        }
+
+        .chip-hold {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        /* TRANSIT */
+        .loading-vibe {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .tm-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--tm-blue);
+            border-radius: 50%;
+            animation: spinTM 0.8s linear infinite;
+            margin: 0 auto 25px;
+        }
+
+        @keyframes spinTM {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+        <header class="tm-header">
+            <button class="back-btn" onclick="back()">←</button>
+            <div class="header-title" id="hTitle">My Tickets</div>
+            <div style="width: 28px;"></div>
+        </header>
+
+        <!-- 1. VIEW -->
+        <section id="s1" class="screen active">
+            <div class="event-banner">
+                <img id="mImg" src="" class="event-img">
+                <div class="event-info-box">
+                    <h1 class="event-title" id="mName"></h1>
+                    <p class="event-sub" id="mVenue"></p>
+                    <p class="event-sub" id="mDate"></p>
+                </div>
+            </div>
+            <div class="ticket-scroll-area">
+                <div id="ticketsList"></div>
+            </div>
+            <div class="fixed-footer">
+                <button class="btn btn-blue" style="grid-column: span 2;" onclick="to(2)">Transfer</button>
+            </div>
+        </section>
+
+        <!-- 2. SELECTION (RESPONSIVE) -->
+        <section id="s2" class="screen p-25">
+            <h2 class="heading">Select Tickets</h2>
+            <p class="desc">Please choose the seats you'd like to transfer.</p>
+
+            <div id="splitErr" class="error-alert">
+                <span style="font-size: 24px;">⛔</span>
+                <div>
+                    <strong style="display:block; margin-bottom:4px; font-size:15px;">Cannot Split Order</strong>
+                    For security and venue logistics, all seats in this transaction must be transferred together.
+                    Grouped seating integrity is required for this event.
+                </div>
+            </div>
+
+            <div id="selectionArea"></div>
+
+            <div class="fixed-footer" style="grid-template-columns: 1fr;">
+                <button class="btn btn-blue" onclick="validate()">Continue to Transfer</button>
+            </div>
+        </section>
+
+        <!-- 3. RECIPIENT -->
+        <section id="s3" class="screen p-25">
+            <h2 class="heading">Recipient Details</h2>
+            <p class="desc">Transfer ownership safely to another Ticketmaster user.</p>
+
+            <div class="form-row"><label>First Name</label><input type="text" id="fn" placeholder="First Name"></div>
+            <div class="form-row"><label>Last Name</label><input type="text" id="ln" placeholder="Last Name"></div>
+            <div class="form-row"><label>Recipient Email</label><input type="email" id="em"
+                    placeholder="email@address.com"></div>
+
+            <div class="fixed-footer" style="grid-template-columns: 1fr;">
+                <button class="btn btn-blue" onclick="to(4)">Confirm Ownership Change</button>
+            </div>
+        </section>
+
+        <!-- 4. BILL 1: OWNERSHIP -->
+        <section id="s4" class="screen p-25">
+            <div class="status-chip chip-wait">Pending Approval</div>
+            <h2 class="heading">Ownership Verification Bill</h2>
+            <p class="desc">Digital SafeTix™ licenses must be officially re-registered to the recipient. This
+                administrative settlement is required to proceed.</p>
+
+            <div class="invoice-box">
+                <div class="invoice-head"><strong id="b1_title">OWNERSHIP SETTLEMENT</strong><span id="b1_id"></span>
+                </div>
+                <div class="inv-row"><span>SafeTix License Sync</span><span>$25.00</span></div>
+                <div class="inv-row"><span>Database Re-assignment</span><span>$25.00</span></div>
+                <div class="inv-row"><span>Administrative Processing</span><span id="b1_val">$0.00</span></div>
+                <div class="inv-total"><span>Total Settlement</span><span id="b1_tot">$0.00</span></div>
+            </div>
+
+            <div class="fixed-footer" style="grid-template-columns: 1fr;">
+                <button class="btn btn-blue" onclick="processB1()">Clear Bill & Initiate Transfer</button>
+            </div>
+        </section>
+
+        <!-- 5. TRANSIT -->
+        <section id="s5" class="screen p-25">
+            <div class="loading-vibe">
+                <div class="tm-spinner"></div>
+                <h2 class="heading" id="tStatus">Tickets In-Transit</h2>
+                <p class="desc">Securely handshaking with the venue server. Please refrain from refreshing the page.</p>
+            </div>
+            <div style="background:#f9f9f9; padding:20px; border-radius:16px; border:1px solid #eee;">
+                <div class="status-chip chip-transit">Status: Syncing Data</div>
+                <div style="font-size:14px; font-weight:700; margin-top:10px;">Destination: <span id="rName"></span>
+                </div>
+                <div style="font-size:13px; color:#666; margin-top:5px;">Estimated Sync: 12 seconds</div>
+            </div>
+            <div class="fixed-footer" style="grid-template-columns: 1fr;">
+                <button class="btn btn-outline" onclick="to(6)">Check Venue Release Status</button>
+            </div>
+        </section>
+
+        <!-- 6. BILL 2: VENUE RELEASE -->
+        <section id="s6" class="screen p-25">
+            <div class="status-chip chip-hold">Relase Held by Venue</div>
+            <h2 class="heading">Approve Release Request</h2>
+            <p class="desc">A venue release settlement for <b><span id="vRec"></span></b> is required. These tickets are
+                currently held at the venue server until final release approval.</p>
+
+            <div class="invoice-box" style="border-color:#fee2e2;">
+                <div class="invoice-head"><strong style="color:var(--tm-blue);" id="b2_title">VENUE
+                        SETTLEMENT</strong><span id="b2_id"></span></div>
+                <div class="inv-row"><span>Venue Capacity Tax</span><span>$12.50</span></div>
+                <div class="inv-row"><span>Digital Seat Maintenance</span><span>$12.50</span></div>
+                <div class="inv-row"><span>Venue Guarantee Fee</span><span id="b2_val">$0.00</span></div>
+                <div class="inv-total" style="border-top-color:#ef4444;"><span style="color:#ef4444;">Final Release
+                        Total</span><span id="b2_tot">$0.00</span></div>
+            </div>
+
+            <div class="fixed-footer" style="grid-template-columns: 1fr;">
+                <button class="btn btn-blue"
+                    onclick="alert('Connecting to Secured Venue Settlement Gateway...')">Approve & Release Tickets
+                    Now</button>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        let cur = 1;
+        let selected = [];
+        let cfg = {};
+
+        function loadCfg() {
+            const saved = localStorage.getItem('tm_ticket_data_v2');
+            if (saved) {
+                cfg = JSON.parse(saved);
+            } else {
+                cfg = { eventName: 'Taylor Swift | The Eras Tour', venue: 'SoFi Stadium • Inglewood, CA', eventDate: 'Fri • Jul 15, 2026 • 7:00 PM', imageUrl: 'https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&q=80&w=1000', bill1Total: '65.00', bill1ID: 'OWN-7721', bill2Total: '70.00', bill2ID: 'V-8821', seats: [{ sec: '102', row: '15', num: '3' }, { sec: '102', row: '15', num: '4' }] };
+            }
+
+            document.getElementById('mName').innerText = cfg.eventName;
+            document.getElementById('mVenue').innerText = cfg.venue;
+            document.getElementById('mDate').innerText = cfg.eventDate;
+            document.getElementById('mImg').src = cfg.imageUrl;
+
+            // Render Tickets on S1
+            const list = document.getElementById('ticketsList');
+            list.innerHTML = '';
+            cfg.seats.forEach(s => {
+                const card = document.createElement('div');
+                card.className = 'ticket-card';
+                card.innerHTML = `
+                <div class="card-top-bar">SafeTix™ Verified</div>
+                <div class="seat-grid">
+                    <div><span class="label">Sec</span><strong class="value">${s.sec}</strong></div>
+                    <div><span class="label">Row</span><strong class="value">${s.row}</strong></div>
+                    <div><span class="label">Seat</span><strong class="value">${s.num}</strong></div>
+                </div>
+                <div class="barcode-section">
+                    <div class="barcode-graphic"><div class="safe-line"></div></div>
+                    <p class="safetix-logo">SafeTix™ Barcode Rotates Regularly</p>
+                </div>
+            `;
+                list.appendChild(card);
+            });
+
+            // Render Selection S2
+            const sArea = document.getElementById('selectionArea');
+            sArea.innerHTML = '';
+            cfg.seats.forEach((s, idx) => {
+                const div = document.createElement('div');
+                div.className = 'select-card';
+                div.id = 'sel_' + idx;
+                div.onclick = () => toggle(div.id, idx);
+                div.innerHTML = `
+                <div class="checkbox-ui"></div>
+                <div><div style="font-weight:900; font-size:16px;">Seat ${s.num}</div><div style="font-size:12px; color:#888;">Section ${s.sec}, Row ${s.row}</div></div>
+            `;
+                sArea.appendChild(div);
+            });
+
+            // Bills
+            document.getElementById('b1_id').innerText = "#" + cfg.bill1ID;
+            document.getElementById('b1_val').innerText = "$" + (parseFloat(cfg.bill1Total) - 50).toFixed(2);
+            document.getElementById('b1_tot').innerText = "$" + parseFloat(cfg.bill1Total).toFixed(2);
+
+            document.getElementById('b2_id').innerText = "#" + cfg.bill2ID;
+            document.getElementById('b2_val').innerText = "$" + (parseFloat(cfg.bill2Total) - 25).toFixed(2);
+            document.getElementById('b2_tot').innerText = "$" + parseFloat(cfg.bill2Total).toFixed(2);
+        }
+
+        function toggle(id, idx) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('active')) {
+                el.classList.remove('active');
+                selected = selected.filter(x => x !== idx);
+            } else {
+                el.classList.add('active');
+                selected.push(idx);
+            }
+        }
+
+        function to(n) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('s' + n).classList.add('active');
+            cur = n;
+            const tt = { 1: 'My Tickets', 2: 'Transfer Tickets', 3: 'Transfer Tickets', 4: 'Ownership Bill', 5: 'In-Transit', 6: 'Claim Approval' };
+            document.getElementById('hTitle').innerText = tt[n];
+            window.scrollTo(0, 0);
+        }
+
+        function back() { if (cur > 1) to(cur - 1); }
+
+        function validate() {
+            if (selected.length < cfg.seats.length) {
+                document.getElementById('splitErr').classList.add('show');
+            } else {
+                to(3);
+            }
+        }
+
+        function processB1() {
+            const name = document.getElementById('fn').value + " " + document.getElementById('ln').value;
+            document.getElementById('rName').innerText = name || 'Recipient';
+            document.getElementById('vRec').innerText = name || 'Recipient';
+            to(5);
+        }
+
+        window.onload = loadCfg;
+    </script>
+</body>
+
+</html>
