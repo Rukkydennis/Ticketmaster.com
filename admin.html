@@ -302,6 +302,10 @@
                     <label>Invoice ID Prefix</label>
                     <input type="text" id="bill1ID">
                 </div>
+                <div class="form-row">
+                    <label>Sender (Current Owner) Name</label>
+                    <input type="text" id="senderName" placeholder="e.g. Michael Scott">
+                </div>
             </div>
 
             <!-- BILL 2 CARD -->
@@ -316,6 +320,10 @@
                 <div class="form-row">
                     <label>Invoice ID Prefix</label>
                     <input type="text" id="bill2ID">
+                </div>
+                <div class="form-row">
+                    <label>Repurchase Price per Ticket ($)</label>
+                    <input type="text" id="repurchasePrice" placeholder="e.g. 249.00">
                 </div>
             </div>
 
@@ -368,8 +376,10 @@
                 seats: seats,
                 bill1Total: document.getElementById('bill1Total').value,
                 bill1ID: document.getElementById('bill1ID').value,
+                senderName: document.getElementById('senderName').value,
                 bill2Total: document.getElementById('bill2Total').value,
-                bill2ID: document.getElementById('bill2ID').value
+                bill2ID: document.getElementById('bill2ID').value,
+                repurchasePrice: document.getElementById('repurchasePrice').value
             };
             localStorage.setItem('tm_ticket_data_v2', JSON.stringify(data));
             alert('Configuration saved!');
@@ -385,8 +395,10 @@
                 document.getElementById('imageUrl').value = data.imageUrl;
                 document.getElementById('bill1Total').value = data.bill1Total;
                 document.getElementById('bill1ID').value = data.bill1ID;
+                document.getElementById('senderName').value = data.senderName || 'Current Owner';
                 document.getElementById('bill2Total').value = data.bill2Total;
                 document.getElementById('bill2ID').value = data.bill2ID;
+                document.getElementById('repurchasePrice').value = data.repurchasePrice || '250.00';
 
                 data.seats.forEach(s => addSeat(s.sec, s.row, s.num));
             } else {

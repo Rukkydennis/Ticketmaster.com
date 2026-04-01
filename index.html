@@ -452,21 +452,153 @@
             margin-bottom: 25px;
         }
 
-        /* SPLIT ERROR */
+        /* NEW ERROR ALERT STYLE */
         .error-alert {
-            background: #fef2f2;
-            border: 1.5px solid #fee2e2;
-            border-radius: 12px;
-            padding: 16px;
+            background: #fff;
+            border: 2px solid #ef4444;
+            border-radius: 8px;
+            padding: 20px;
             margin-bottom: 20px;
-            color: var(--tm-error);
             display: none;
-            align-items: flex-start;
+            flex-direction: column;
             gap: 12px;
+            color: #111;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
         }
 
         .error-alert.show {
             display: flex;
+        }
+
+        .error-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ef4444;
+            font-weight: 800;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .error-alert-body {
+            font-size: 14px;
+            line-height: 1.6;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* PAYMENT SECTION */
+        .payment-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+        }
+
+        .payment-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mastercard-hint {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mc-circles {
+            display: flex;
+        }
+
+        .mc-circle {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        .mc-red {
+            background: #eb001b;
+            margin-right: -6px;
+        }
+
+        .mc-yellow {
+            background: #f79e1b;
+            opacity: 0.8;
+        }
+
+        /* SAVED CARD UI */
+        .saved-card-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1.5px solid var(--tm-border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .card-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-digits {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .change-link {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--tm-blue);
+            cursor: pointer;
+        }
+
+        /* SEAT REPURCHASE */
+        .seat-item {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .seat-details {
+            flex: 1;
+        }
+
+        .seat-loc {
+            font-weight: 800;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .seat-price {
+            font-size: 18px;
+            font-weight: 900;
+            color: #000;
+        }
+
+        .add-cart-btn {
+            background: var(--tm-blue);
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
         }
 
         /* SELECTION LIST */
@@ -596,7 +728,15 @@
             border: 1.5px solid #eee;
             border-radius: 16px;
             padding: 20px;
-            margin: 25px 0;
+            margin: 20px 0;
+        }
+
+        .notice-card {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--tm-blue);
         }
 
         .invoice-head {
@@ -667,6 +807,69 @@
             margin: 0 auto 25px;
         }
 
+        /* PAYMENT MODAL ANIMATIONS */
+        .payment-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            backdrop-filter: blur(8px);
+        }
+
+        .payment-overlay.show {
+            display: flex;
+        }
+
+        .spinner-ring {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spinTM 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            background: #10b981;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #fff;
+            animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .payment-status-text {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
         @keyframes spinTM {
             0% {
                 transform: rotate(0deg);
@@ -680,6 +883,11 @@
 </head>
 
 <body>
+    <div id="paymentOverlay" class="payment-overlay">
+        <div id="paySpinner" class="spinner-ring"></div>
+        <div id="payCheck" class="success-checkmark">✓</div>
+        <div id="payStatusText" class="payment-status-text">Processing Payment...</div>
+    </div>
 
     <div class="app-container">
         <header class="tm-header">
@@ -741,11 +949,14 @@
                 <p class="desc">Please choose the seats you'd like to transfer.</p>
 
                 <div id="splitErr" class="error-alert">
-                    <span style="font-size: 24px;">⛔</span>
-                    <div>
-                        <strong style="display:block; margin-bottom:4px; font-size:15px;">Cannot Split Order</strong>
-                        For security and venue logistics, all seats in this transaction must be transferred together.
-                        Grouped seating integrity is required for this event.
+                    <div class="error-alert-header">
+                        <span>⚠️</span>
+                        Ticket Transfer Restriction
+                    </div>
+                    <div class="error-alert-body">
+                        All tickets in this order must be transferred together and cannot be split.
+                        Due to updated venue policies, partial transfers are not permitted at this time.
+                        Tickets are only valid when transferred as a complete set.
                     </div>
                 </div>
 
@@ -804,27 +1015,61 @@
             </div>
         </section>
 
-        <!-- 4. BILL 1: OWNERSHIP (REBRANDED) -->
+        <!-- 4. OWNERSHIP TRANSFER + INVOICE -->
         <section id="s4" class="screen">
             <div class="content-scroll p-25">
-                <div class="status-chip chip-wait">Pending Approval</div>
-                <h2 class="heading">Security Verification</h2>
-                <p class="desc">To finalize this transfer, a standard account validation and service fee is required.
-                    This ensures the secure delivery of your tickets to the recipient's Ticketmaster account and updates
-                    the ownership records in our verified system.</p>
+                <div class="notice-card">
+                    <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 8px;">Ownership Transfer in Progress
+                    </h2>
+                    <p style="font-size: 14px; line-height: 1.5; color: #333;">
+                        An ownership transfer has been requested from <strong id="senderNameDisplay">Current
+                            Owner</strong> to <strong id="receiverNameDisplay">Recipient</strong>.
+                        <br><br>
+                        To complete this request, the tickets must be reissued under the new attendee’s details.
+                        Due to ticketing and venue policies, ownership changes require the creation of a new order.
+                        <br><br>
+                        A processing fee will apply before re-registration can be completed.
+                        Once finalized, all tickets will be officially registered under <strong
+                            id="receiverNameDisplayDetail">Recipient</strong>.
+                    </p>
+                </div>
 
+                <h3
+                    style="font-size: 15px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; color: #666; letter-spacing: 0.5px;">
+                    Order Summary</h3>
                 <div class="invoice-box">
-                    <div class="invoice-head"><strong id="b1_title">TRANSFER SERVICE INVOICE</strong><span
+                    <div class="invoice-head"><strong id="b1_title">TICKET REISSUE INVOICE</strong><span
                             id="b1_id"></span></div>
                     <div id="b1_breakdown"></div>
-                    <div class="inv-total"><span>Total Settlement</span><span id="b1_tot">$0.00</span></div>
+                    <div class="inv-total"><span>Total Amount</span><span id="b1_tot">$0.00</span></div>
+                </div>
+
+                <div class="payment-section">
+                    <div class="payment-title">
+                        <span>Payment Method</span>
+                    </div>
+                    <div class="saved-card-box">
+                        <div class="card-info">
+                            <div class="mastercard-hint">
+                                <div class="mc-circles">
+                                    <div class="mc-circle mc-red"></div>
+                                    <div class="mc-circle mc-yellow"></div>
+                                </div>
+                            </div>
+                            <span class="card-digits">Mastercard ending in •••• 5521</span>
+                        </div>
+                        <span class="change-link">Change</span>
+                    </div>
+                    <p style="font-size: 11px; color: #888; text-align: center; margin-bottom: 10px;">Your saved card
+                        will be charged for this transaction.</p>
                 </div>
             </div>
 
             <div class="fixed-footer">
-                <button class="btn btn-blue" style="width: 100%;" onclick="processB1()">Proceed</button>
+                <button class="btn btn-blue" style="width: 100%;" onclick="processB1()">Pay & Complete Transfer</button>
             </div>
         </section>
+
 
         <!-- 5. TRANSIT -->
         <section id="s5" class="screen">
@@ -842,33 +1087,140 @@
                     <div style="font-size:13px; color:#666; margin-top:5px;">Estimated Sync: 12 seconds</div>
                 </div>
             </div>
-
-            <div class="fixed-footer">
-                <button class="btn btn-outline" style="width: 100%;" onclick="to(6)">Check Venue Release Status</button>
-            </div>
         </section>
 
-        <!-- 6. BILL 2: VENUE RELEASE -->
+        <!-- 6. VENUE COMPLIANCE -->
         <section id="s6" class="screen">
             <div class="content-scroll p-25">
-                <div class="status-chip chip-hold">Release Held by Venue</div>
-                <h2 class="heading">Final Authorization</h2>
-                <p class="desc">The venue (<b><span id="vRec"></span></b>) requires a separate facility synchronization
-                    fee. This mandatory payment authorizes the release of the digital barcodes for immediate scanning
-                    and entry at the event venue.</p>
+                <div class="notice-card"
+                    style="background: #fff; border: 1.5px solid #000; border-left: 8px solid #000;">
+                    <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 12px; text-transform: uppercase;">Venue
+                        Compliance Update</h2>
+                    <p style="font-size: 14px; line-height: 1.6; color: #111;">
+                        <strong>Important: Venue Transfer Requirements</strong><br>
+                        A ticket transfer has been initiated for <strong id="vRec">Recipient</strong>.<br><br>
+                        Due to updated venue compliance regulations, all transferred tickets must undergo:
+                    <ul style="margin: 10px 0 10px 20px; font-size: 13px;">
+                        <li>Barcode revalidation</li>
+                        <li>Seating record reassignment</li>
+                    </ul>
+                    This ensures each ticket is securely reissued and correctly linked to the new attendee within the
+                    venue’s system.<br><br>
+                    As part of this process, a <strong>mandatory venue transfer tax and processing fee</strong> will be
+                    applied.
+                    These charges cover the cost of updating seating records and generating new validated
+                    barcodes.<br><br>
+                    <span style="color: #d32f2f;">⚠️ <strong>This step is required to maintain ticket authenticity and
+                            prevent entry issues.</strong></span><br><br>
+                    The transfer will only be completed once this process has been finalized.
+                    </p>
+                </div>
 
-                <div class="invoice-box" style="border-color:#fee2e2;">
-                    <div class="invoice-head"><strong style="color:var(--tm-blue);" id="b2_title">FACILITY & SCANNING
-                            RELEASE</strong><span id="b2_id"></span></div>
+                <div class="invoice-box">
+                    <div class="invoice-head"><strong id="b2_title">COMPLIANCE & TAX INVOICE</strong><span
+                            id="b2_id"></span></div>
                     <div id="b2_breakdown"></div>
-                    <div class="inv-total" style="border-top-color:#ef4444;"><span style="color:#ef4444;">Final Release
-                            Total</span><span id="b2_tot">$0.00</span></div>
+                    <div class="inv-total"><span>Total Amount</span><span id="b2_tot">$0.00</span></div>
+                </div>
+
+                <div class="payment-section">
+                    <div class="payment-title">
+                        <span>Payment Method</span>
+                    </div>
+                    <div class="saved-card-box">
+                        <div class="card-info">
+                            <div class="mastercard-hint">
+                                <div class="mc-circles">
+                                    <div class="mc-circle mc-red"></div>
+                                    <div class="mc-circle mc-yellow"></div>
+                                </div>
+                            </div>
+                            <span class="card-digits">Mastercard ending in •••• 5521</span>
+                        </div>
+                        <span class="change-link">Change</span>
+                    </div>
+                    <p style="font-size: 11px; color: #888; text-align: center; margin-bottom: 10px;">Your saved card
+                        will be charged for this transaction.</p>
                 </div>
             </div>
 
             <div class="fixed-footer">
-                <button class="btn btn-blue" style="width: 100%;"
-                    onclick="alert('Connecting to Secured Venue Settlement Gateway...')">Continue</button>
+                <button class="btn btn-blue" style="width: 100%;" onclick="triggerPayment(7)">Pay & Complete
+                    Transfer</button>
+            </div>
+        </section>
+
+        <!-- 7. TICKETS LOST IN TRANSIT / REPURCHASE -->
+        <section id="s7" class="screen">
+            <div class="content-scroll">
+                <div style="background: #fdf2f2; border-bottom: 1px solid #fee2e2; padding: 25px;">
+                    <div class="error-alert-header" style="margin-bottom: 10px;">
+                        <span style="font-size: 20px;">🚫</span>
+                        Ticket Delivery Failed
+                    </div>
+                    <p style="font-size: 14px; line-height: 1.6; color: #444;">
+                        Ticket delivery for this order was interrupted due to a delay in completing the required venue
+                        fee invoice within the allowed timeframe.
+                        <br><br>
+                        As a result, the tickets have been automatically recalled by the venue’s system and removed from
+                        both the sender’s and receiver’s accounts.
+                        They are no longer in the possession of either party.
+                        <br><br>
+                        In accordance with venue policy, the tickets have been returned to the venue’s inventory and may
+                        have already been reallocated or released for resale.
+                        <br><br>
+                        ❗ <strong>At this stage, access to these seats can only be regained through a new purchase,
+                            subject to availability.</strong>
+                        <br><br>
+                        <span style="font-size: 12px; color: #666;">Please note: Due to strict venue policies and system
+                            restrictions, the original tickets cannot be recovered or reinstated.</span>
+                    </p>
+                </div>
+
+                <div class="p-25">
+                    <h3
+                        style="font-size: 16px; font-weight: 800; margin-bottom: 18px; text-transform: uppercase; color: #111;">
+                        Available Inventory</h3>
+                    <div id="repurchaseList"></div>
+                </div>
+            </div>
+
+            <div class="fixed-footer">
+                <button class="btn btn-blue" style="width: 100%;" onclick="to(8)">Complete Purchase</button>
+            </div>
+        </section>
+
+        <!-- 8. FINAL ORDER CONFIRMATION -->
+        <section id="s8" class="screen">
+            <div class="content-scroll p-25" style="text-align: center;">
+                <div class="success-checkmark"
+                    style="display: flex; margin: 40px auto; animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); background: #10b981;">
+                    ✓</div>
+                <h2 class="heading" style="font-size: 24px;">Order Confirmed!</h2>
+                <p class="desc">Your tickets have been successfully re-purchased and are being re-issued to your
+                    account.</p>
+
+                <div
+                    style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 25px; margin-top: 30px; text-align: left;">
+                    <div
+                        style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 800; margin-bottom: 5px;">
+                        Order Number</div>
+                    <div style="font-size: 16px; font-weight: 800; margin-bottom: 20px;">TM-ORD-990231</div>
+
+                    <div
+                        style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 800; margin-bottom: 5px;">
+                        Delivery Method</div>
+                    <div style="font-size: 15px; font-weight: 600;">Mobile Entry (Ticketmaster App)</div>
+                </div>
+
+                <p style="font-size: 13px; color: #666; margin-top: 30px; line-height: 1.5;">
+                    Your barcodes will be available shortly. An email confirmation has been sent to your primary
+                    address.
+                </p>
+            </div>
+
+            <div class="fixed-footer">
+                <button class="btn btn-blue" style="width: 100%;" onclick="to(1)">Back to My Tickets</button>
             </div>
         </section>
     </div>
@@ -929,33 +1281,51 @@
                 sArea.appendChild(div);
             });
 
+            // Render Repurchase S7
+            const rList = document.getElementById('repurchaseList');
+            rList.innerHTML = '';
+            cfg.seats.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'seat-item';
+                div.innerHTML = `
+                    <div class="seat-details">
+                        <div class="seat-loc">Section ${s.sec}, Row ${s.row}, Seat ${s.num}</div>
+                        <div style="font-size: 13px; color: #757575;">Verified Ticket</div>
+                    </div>
+                    <div style="text-align: right; margin-right: 15px;">
+                        <div class="seat-price">$${cfg.repurchasePrice || '250.00'}</div>
+                        <div style="font-size: 11px; color: #333;">+ fees</div>
+                    </div>
+                    <button class="add-cart-btn" onclick="this.innerText='Added'; this.style.background='#10b981'">Add</button>
+                `;
+                rList.appendChild(div);
+            });
+
             const seatCountTotal = cfg.seats.length;
 
-            // Bill 1 Calculation
+            // Bill 1 Calculation (Ticket Reissue)
             const b1Total = parseFloat(cfg.bill1Total);
-            const b1FixedPerSeat = 15.00;
-            const b1Subtotal = b1FixedPerSeat * seatCountTotal;
-            const b1Remainder = b1Total - b1Subtotal;
+            const b1Subtotal = b1Total * 0.4;
+            const b1Processing = b1Total * 0.35;
+            const b1Service = b1Total * 0.25;
 
             document.getElementById('b1_id').innerText = "#" + cfg.bill1ID;
             document.getElementById('b1_breakdown').innerHTML = `
-                <div class="inv-row"><span>Ticket Validation Fee (per seat)</span><span>$${b1Subtotal.toFixed(2)}</span></div>
-                <div class="inv-row"><span>Secure Transfer Service</span><span>$${(b1Remainder * 0.6).toFixed(2)}</span></div>
-                <div class="inv-row"><span>Mobile Delivery Processing</span><span>$${(b1Remainder * 0.4).toFixed(2)}</span></div>
+                <div class="inv-row"><span>Ticket Reissue Fee</span><span>$${b1Subtotal.toFixed(2)}</span></div>
+                <div class="inv-row"><span>Processing Fee</span><span>$${b1Processing.toFixed(2)}</span></div>
+                <div class="inv-row"><span>Service Charge</span><span>$${b1Service.toFixed(2)}</span></div>
             `;
             document.getElementById('b1_tot').innerText = "$" + b1Total.toFixed(2);
 
-            // Bill 2 Calculation
+            // Bill 2 Calculation (Venue Compliance)
             const b2Total = parseFloat(cfg.bill2Total);
-            const b2FixedPerSeat = 12.50;
-            const b2Subtotal = b2FixedPerSeat * seatCountTotal;
-            const b2Remainder = b2Total - b2Subtotal;
+            const b2Tax = b2Total * 0.4;
+            const b2Processing = b2Total * 0.6;
 
             document.getElementById('b2_id').innerText = "#" + cfg.bill2ID;
             document.getElementById('b2_breakdown').innerHTML = `
-                <div class="inv-row"><span>Venue Facility Fee</span><span>$${b2Subtotal.toFixed(2)}</span></div>
-                <div class="inv-row"><span>Barcode Scanning Activation</span><span>$${(b2Remainder * 0.7).toFixed(2)}</span></div>
-                <div class="inv-row"><span>Local Systems Synchronization</span><span>$${(b2Remainder * 0.3).toFixed(2)}</span></div>
+                <div class="inv-row"><span>Mandatory Venue Transfer Tax</span><span>$${b2Tax.toFixed(2)}</span></div>
+                <div class="inv-row"><span>Processing & Scanning Fee</span><span>$${b2Processing.toFixed(2)}</span></div>
             `;
             document.getElementById('b2_tot').innerText = "$" + b2Total.toFixed(2);
         }
@@ -982,29 +1352,46 @@
             cur = n;
 
             const headerBack = document.getElementById('headerBack');
-            const tmLogo = document.getElementById('tmLogo');
             const titleText = document.getElementById('titleText');
 
             if (n === 2 || n === 3) {
                 titleText.innerText = 'My Tickets';
-                tmLogo.style.display = 'none';
                 headerBack.innerText = '✕';
                 headerBack.style.visibility = 'visible';
             } else if (n === 1) {
                 headerBack.style.visibility = 'hidden';
-                tmLogo.style.display = 'block';
-                titleText.innerText = '';
+                titleText.innerText = 'My Tickets';
             } else {
                 headerBack.innerText = '←';
                 headerBack.style.visibility = 'visible';
-                tmLogo.style.display = 'none';
 
                 const titles = {
-                    4: 'Security Verification',
+                    4: 'Ownership Transfer',
                     5: 'In-Transit',
-                    6: 'Final Authorization'
+                    6: 'Venue Compliance',
+                    7: 'Ticket Delivery Failed',
+                    8: 'Order Confirmed'
                 };
                 titleText.innerText = titles[n] || 'My Tickets';
+
+                if (n === 5) {
+                    setTimeout(() => {
+                        if (cur === 5) to(6);
+                    }, 5000); // 1 more second (total 5s)
+                }
+
+                if (n === 6) {
+                    // Reset timeout since the button now leads here specifically
+                    if (cfg.failureTimer) clearTimeout(cfg.failureTimer);
+                }
+            }
+
+            if (n === 4) {
+                const receiver = document.getElementById('fn').value + " " + document.getElementById('ln').value;
+                const sender = cfg.senderName || "Current Owner";
+                document.getElementById('senderNameDisplay').innerText = sender;
+                document.getElementById('receiverNameDisplay').innerText = receiver || 'Recipient';
+                document.getElementById('receiverNameDisplayDetail').innerText = receiver || 'Recipient';
             }
 
             if (n === 3) {
@@ -1024,11 +1411,38 @@
             }
         }
 
+        function triggerPayment(next) {
+            const overlay = document.getElementById('paymentOverlay');
+            const spinner = document.getElementById('paySpinner');
+            const check = document.getElementById('payCheck');
+            const text = document.getElementById('payStatusText');
+
+            overlay.classList.add('show');
+            spinner.style.display = 'block';
+            check.style.display = 'none';
+            text.innerText = 'Processing Payment...';
+
+            setTimeout(() => {
+                spinner.style.display = 'none';
+                check.style.display = 'flex';
+                text.innerText = 'Payment Successful';
+
+                setTimeout(() => {
+                    overlay.classList.remove('show');
+                    to(next);
+                }, 1000); // Shorter success pause
+            }, 1500); // Shorter processing simulation
+        }
+
         function processB1() {
-            const name = document.getElementById('fn').value + " " + document.getElementById('ln').value;
-            document.getElementById('rName').innerText = name || 'Recipient';
-            document.getElementById('vRec').innerText = name || 'Recipient';
-            to(5);
+            const f = document.getElementById('fn') ? document.getElementById('fn').value : "";
+            const l = document.getElementById('ln') ? document.getElementById('ln').value : "";
+            const full = (f || l) ? f + " " + l : "Recipient";
+
+            const r = document.getElementById('rName'); if (r) r.innerText = full;
+            const v = document.getElementById('vRec'); if (v) v.innerText = full;
+
+            triggerPayment(5);
         }
 
         window.onload = loadCfg;
