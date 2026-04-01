@@ -4,7 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ticketmaster - My Tickets</title>
+    <title>Ticketmaster</title>
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Ticketmaster">
+    <meta name="theme-color" content="#18191a">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
@@ -38,16 +46,14 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden;
-            /* Prevent body scroll entirely */
-            background-color: #000;
-            /* Dark background like phone bezels */
+            background-color: #fff;
+            -webkit-font-smoothing: antialiased;
         }
 
         .app-container {
-            width: 100vw;
-            max-width: 450px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
             height: 100%;
             height: 100dvh;
             display: flex;
@@ -55,55 +61,109 @@
             position: relative;
             background: #fff;
             overflow: hidden;
-            /* Lock the main container */
         }
 
-        /* HEADER */
+        /* HEADER - REAL TM STYLE */
         .tm-header {
-            background: var(--tm-header-bg);
+            background: #18191a;
             color: #fff;
             padding: 0 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             z-index: 1000;
-            height: 60px;
+            height: 56px;
             flex-shrink: 0;
+            position: relative;
         }
 
         .back-btn {
             background: none;
             border: none;
             color: #fff;
-            font-size: 26px;
+            font-size: 24px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             width: 44px;
             height: 44px;
-            margin-left: -10px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
         }
 
         .header-title {
-            font-weight: 700;
-            font-size: 17px;
-            letter-spacing: -0.2px;
+            font-weight: 500;
+            font-size: 16px;
             text-align: center;
             flex: 1;
+        }
+
+        .help-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            width: 44px;
+            text-align: right;
+        }
+
+        /* TABS */
+        .tm-tabs {
+            background: #18191a;
+            display: flex;
+        }
+
+        .tm-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            opacity: 0.6;
+            text-transform: uppercase;
+            position: relative;
+        }
+
+        .tm-tab.active {
+            opacity: 1;
+        }
+
+        .tm-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: #fff;
+        }
+
+        .sub-header {
+            padding: 16px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #eee;
         }
 
         /* SCREENS - APP FEEL */
         .screen {
             display: none;
             flex: 1;
-            /* Take all remaining space */
             flex-direction: column;
             width: 100%;
-            height: calc(100% - 60px);
-            /* Fill space between header and footer */
             background: #fff;
             position: relative;
+            overflow: hidden;
+        }
+
+        /* Adjust content area to fill remaining space */
+        .screen.has-tabs-sub .content-scroll {
+            height: calc(100vh - 56px - 40px - 53px);
+            /* header + tabs + sub-header */
         }
 
         .screen.active {
@@ -248,10 +308,81 @@
         }
 
         .safetix-logo {
-            font-size: 10.5px;
-            font-weight: 800;
+            font-size: 11px;
+            font-weight: 700;
             color: #777;
             margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .safetix-logo svg {
+            color: var(--tm-blue);
+        }
+
+        /* TICKET DETAIL VIEW ENHANCEMENTS */
+        .ticket-view-header {
+            padding: 20px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .ticket-view-title {
+            font-size: 19px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .ticket-view-meta {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .wallet-btns {
+            padding: 0 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wallet-btn {
+            background: #111;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .wallet-btn-google {
+            background: #fff;
+            color: #3c4043;
+            border: 1px solid #dadce0;
+        }
+
+        .fixed-footer-dual {
+            width: 100%;
+            padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+            background: #fff;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+            z-index: 1100;
+        }
+
+        .btn-outline-dark {
+            background: #fff;
+            color: #111;
+            border: 1.5px solid #111;
         }
 
         /* FOOTER NAV - LOCKED LIKE APP */
@@ -321,21 +452,153 @@
             margin-bottom: 25px;
         }
 
-        /* SPLIT ERROR */
+        /* NEW ERROR ALERT STYLE */
         .error-alert {
-            background: #fef2f2;
-            border: 1.5px solid #fee2e2;
-            border-radius: 12px;
-            padding: 16px;
+            background: #fff;
+            border: 2px solid #ef4444;
+            border-radius: 8px;
+            padding: 20px;
             margin-bottom: 20px;
-            color: var(--tm-error);
             display: none;
-            align-items: flex-start;
+            flex-direction: column;
             gap: 12px;
+            color: #111;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
         }
 
         .error-alert.show {
             display: flex;
+        }
+
+        .error-alert-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ef4444;
+            font-weight: 800;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .error-alert-body {
+            font-size: 14px;
+            line-height: 1.6;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* PAYMENT SECTION */
+        .payment-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #eee;
+        }
+
+        .payment-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mastercard-hint {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .mc-circles {
+            display: flex;
+        }
+
+        .mc-circle {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        .mc-red {
+            background: #eb001b;
+            margin-right: -6px;
+        }
+
+        .mc-yellow {
+            background: #f79e1b;
+            opacity: 0.8;
+        }
+
+        /* SAVED CARD UI */
+        .saved-card-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1.5px solid var(--tm-border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .card-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-digits {
+            font-size: 15px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .change-link {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--tm-blue);
+            cursor: pointer;
+        }
+
+        /* SEAT REPURCHASE */
+        .seat-item {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+
+        .seat-details {
+            flex: 1;
+        }
+
+        .seat-loc {
+            font-weight: 800;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .seat-price {
+            font-size: 18px;
+            font-weight: 900;
+            color: #000;
+        }
+
+        .add-cart-btn {
+            background: var(--tm-blue);
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
         }
 
         /* SELECTION LIST */
@@ -391,18 +654,72 @@
             color: #666;
         }
 
-        .form-row input {
+        .form-row input,
+        .form-row textarea {
             width: 100%;
-            padding: 16px;
-            border: 1.5px solid #ddd;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
             font-size: 16px;
             background: #fff;
+            color: #333;
         }
 
-        .form-row input:focus {
-            border-color: var(--tm-blue);
-            outline: none;
+        .form-row input::placeholder,
+        .form-row textarea::placeholder {
+            color: #999;
+        }
+
+        .info-box {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            color: #026cdf;
+            font-size: 20px;
+        }
+
+        .info-text {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .footer-action-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .cancel-btn {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .transfer-btn {
+            background: #9ab4f3;
+            /* Real TM disabled-looking but active blue */
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 15px;
         }
 
         /* BILLS */
@@ -411,7 +728,15 @@
             border: 1.5px solid #eee;
             border-radius: 16px;
             padding: 20px;
-            margin: 25px 0;
+            margin: 20px 0;
+        }
+
+        .notice-card {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--tm-blue);
         }
 
         .invoice-head {
@@ -482,6 +807,69 @@
             margin: 0 auto 25px;
         }
 
+        /* PAYMENT MODAL ANIMATIONS */
+        .payment-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: #fff;
+            backdrop-filter: blur(8px);
+        }
+
+        .payment-overlay.show {
+            display: flex;
+        }
+
+        .spinner-ring {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            animation: spinTM 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            background: #10b981;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #fff;
+            animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .payment-status-text {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
         @keyframes spinTM {
             0% {
                 transform: rotate(0deg);
@@ -495,47 +883,80 @@
 </head>
 
 <body>
+    <div id="paymentOverlay" class="payment-overlay">
+        <div id="paySpinner" class="spinner-ring"></div>
+        <div id="payCheck" class="success-checkmark">✓</div>
+        <div id="payStatusText" class="payment-status-text">Processing Payment...</div>
+    </div>
 
     <div class="app-container">
         <header class="tm-header">
-            <button class="back-btn" onclick="back()">←</button>
-            <div class="header-title" id="hTitle">My Tickets</div>
-            <a href="admin.html"
-                style="color: #fff; text-decoration: none; font-size: 14px; font-weight: 700; width: 44px; display: flex; align-items: center; justify-content: flex-end;">Help</a>
+            <button class="back-btn" id="headerBack" onclick="back()">✕</button>
+            <div class="header-title" id="hTitle"
+                style="display: flex; align-items: center; justify-content: center; position: absolute; left: 0; right: 0; pointer-events: none;">
+                <span id="titleText" style="margin: 0 10px;">My Tickets</span>
+            </div>
+            <a href="admin.html" class="help-link">Help</a>
         </header>
 
-        <!-- 1. VIEW -->
+        <div id="subHeader" class="sub-header" style="display: none;">TRANSFER TICKETS</div>
+
+        <!-- 1. VIEW - REFACTORED TO MATCH APP -->
         <section id="s1" class="screen active">
+            <div id="tabsS1" class="tm-tabs">
+                <div class="tm-tab active">MY TICKETS</div>
+                <div class="tm-tab">ADD-ONS</div>
+            </div>
             <div class="content-scroll">
-                <div class="event-banner">
-                    <img id="mImg" src="" class="event-img">
-                    <div class="event-info-box">
-                        <h1 class="event-title" id="mName"></h1>
-                        <p class="event-sub" id="mVenue"></p>
-                        <p class="event-sub" id="mDate"></p>
-                    </div>
+                <div style="padding: 0; text-align: center;">
+                    <img id="mImg" src=""
+                        style="width: 100%; height: 210px; object-fit: cover; border-bottom: 4px solid var(--tm-blue);">
                 </div>
-                <div class="ticket-area">
+
+                <div class="ticket-view-header">
+                    <h1 class="ticket-view-title" id="mName">Taylor Swift | The Eras Tour</h1>
+                    <p class="ticket-view-meta" id="mDateVenue">Fri • Jul 15, 2026 • SoFi Stadium</p>
+                </div>
+
+                <div class="wallet-btns" style="margin-top: 10px;">
+                    <a href="#" class="wallet-btn" onclick="return false;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+                            style="height: 18px; filter: brightness(0) invert(1);" alt="Apple">
+                        Add to Apple Wallet
+                    </a>
+                </div>
+
+                <div class="ticket-area" style="padding-top: 15px;">
                     <div id="ticketsList"></div>
                 </div>
             </div>
-            <div class="fixed-footer">
-                <button class="btn btn-blue" style="width: 100%;" onclick="to(2)">Transfer</button>
+            <div class="fixed-footer-dual">
+                <button class="btn btn-outline-dark" style="flex: 1;"
+                    onclick="alert('Resale is currently disabled for this event.')">Sell</button>
+                <button class="btn btn-blue" style="flex: 2;" onclick="to(2)">Transfer</button>
             </div>
         </section>
 
         <!-- 2. SELECTION (RESPONSIVE) -->
-        <section id="s2" class="screen">
+        <section id="s2" class="screen has-tabs-sub">
+            <div id="tabsS2" class="tm-tabs">
+                <div class="tm-tab active">MY TICKETS</div>
+                <div class="tm-tab">ADD-ONS</div>
+            </div>
+            <div class="sub-header">TRANSFER TICKETS</div>
             <div class="content-scroll p-25">
                 <h2 class="heading">Select Tickets</h2>
                 <p class="desc">Please choose the seats you'd like to transfer.</p>
 
                 <div id="splitErr" class="error-alert">
-                    <span style="font-size: 24px;">⛔</span>
-                    <div>
-                        <strong style="display:block; margin-bottom:4px; font-size:15px;">Cannot Split Order</strong>
-                        For security and venue logistics, all seats in this transaction must be transferred together.
-                        Grouped seating integrity is required for this event.
+                    <div class="error-alert-header">
+                        <span>⚠️</span>
+                        Ticket Transfer Restriction
+                    </div>
+                    <div class="error-alert-body">
+                        All tickets in this order must be transferred together and cannot be split.
+                        Due to updated venue policies, partial transfers are not permitted at this time.
+                        Tickets are only valid when transferred as a complete set.
                     </div>
                 </div>
 
@@ -543,49 +964,112 @@
             </div>
 
             <div class="fixed-footer">
-                <button class="btn btn-blue" style="width: 100%;" onclick="validate()">Continue to Transfer</button>
+                <button class="btn btn-blue" style="width: 100%;" onclick="validate()">Continue</button>
             </div>
         </section>
 
-        <!-- 3. RECIPIENT -->
-        <section id="s3" class="screen">
-            <div class="content-scroll p-25">
-                <h2 class="heading">Recipient Details</h2>
-                <p class="desc">Transfer ownership safely to another Ticketmaster user.</p>
+        <!-- 3. RECIPIENT - MATCHING IMAGE -->
+        <section id="s3" class="screen has-tabs-sub">
+            <div id="tabsS3" class="tm-tabs">
+                <div class="tm-tab active">MY TICKETS</div>
+                <div class="tm-tab">ADD-ONS</div>
+            </div>
+            <div class="sub-header">TRANSFER TICKETS</div>
+            <div class="content-scroll">
+                <div class="p-25" style="padding-top: 20px;">
+                    <div class="form-row">
+                        <label>First Name</label>
+                        <input type="text" id="fn" placeholder="First Name">
+                    </div>
+                    <div class="form-row">
+                        <label>Last Name</label>
+                        <input type="text" id="ln" placeholder="Last Name">
+                    </div>
+                    <div class="form-row">
+                        <label>Email or Mobile Number</label>
+                        <input type="text" id="em" placeholder="Email or Mobile Number">
+                    </div>
+                    <div class="form-row">
+                        <label>Note</label>
+                        <textarea id="note" placeholder="Add a note (optional)" rows="4"
+                            style="resize: none;"></textarea>
+                    </div>
 
-                <div class="form-row"><label>First Name</label><input type="text" id="fn" placeholder="First Name">
+                    <div class="info-box">
+                        <div class="info-icon">ⓘ</div>
+                        <div class="info-text">
+                            Only transfer tickets to people you know and trust to ensure everyone stays safe
+                        </div>
+                    </div>
                 </div>
-                <div class="form-row"><label>Last Name</label><input type="text" id="ln" placeholder="Last Name"></div>
-                <div class="form-row"><label>Recipient Email</label><input type="email" id="em"
-                        placeholder="email@address.com"></div>
             </div>
 
-            <div class="fixed-footer">
-                <button class="btn btn-blue" style="width: 100%;" onclick="to(4)">Confirm Ownership Change</button>
+            <div class="fixed-footer" style="padding-top: 10px; padding-bottom: 20px;">
+                <div class="footer-action-bar">
+                    <button class="cancel-btn" onclick="back()">
+                        <span style="font-size: 18px;">‹</span> Cancel
+                    </button>
+                    <button class="transfer-btn" id="transferBtn" onclick="to(4)">Transfer <span
+                            id="btnSeatCount"></span> Tickets</button>
+                </div>
             </div>
         </section>
 
-        <!-- 4. BILL 1: OWNERSHIP -->
+        <!-- 4. OWNERSHIP TRANSFER + INVOICE -->
         <section id="s4" class="screen">
             <div class="content-scroll p-25">
-                <div class="status-chip chip-wait">Pending Approval</div>
-                <h2 class="heading">Ownership Verification Bill</h2>
-                <p class="desc">Digital SafeTix™ licenses must be officially re-registered to the recipient. This
-                    administrative settlement is required to proceed.</p>
+                <div class="notice-card">
+                    <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 8px;">Ownership Transfer in Progress
+                    </h2>
+                    <p style="font-size: 14px; line-height: 1.5; color: #333;">
+                        An ownership transfer has been requested from <strong id="senderNameDisplay">Current
+                            Owner</strong> to <strong id="receiverNameDisplay">Recipient</strong>.
+                        <br><br>
+                        To complete this request, the tickets must be reissued under the new attendee’s details.
+                        Due to ticketing and venue policies, ownership changes require the creation of a new order.
+                        <br><br>
+                        A processing fee will apply before re-registration can be completed.
+                        Once finalized, all tickets will be officially registered under <strong
+                            id="receiverNameDisplayDetail">Recipient</strong>.
+                    </p>
+                </div>
 
+                <h3
+                    style="font-size: 15px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; color: #666; letter-spacing: 0.5px;">
+                    Order Summary</h3>
                 <div class="invoice-box">
-                    <div class="invoice-head"><strong id="b1_title">OWNERSHIP SETTLEMENT</strong><span
+                    <div class="invoice-head"><strong id="b1_title">TICKET REISSUE INVOICE</strong><span
                             id="b1_id"></span></div>
                     <div id="b1_breakdown"></div>
-                    <div class="inv-total"><span>Total Settlement</span><span id="b1_tot">$0.00</span></div>
+                    <div class="inv-total"><span>Total Amount</span><span id="b1_tot">$0.00</span></div>
+                </div>
+
+                <div class="payment-section">
+                    <div class="payment-title">
+                        <span>Payment Method</span>
+                    </div>
+                    <div class="saved-card-box">
+                        <div class="card-info">
+                            <div class="mastercard-hint">
+                                <div class="mc-circles">
+                                    <div class="mc-circle mc-red"></div>
+                                    <div class="mc-circle mc-yellow"></div>
+                                </div>
+                            </div>
+                            <span class="card-digits">Mastercard ending in •••• 5521</span>
+                        </div>
+                        <span class="change-link">Change</span>
+                    </div>
+                    <p style="font-size: 11px; color: #888; text-align: center; margin-bottom: 10px;">Your saved card
+                        will be charged for this transaction.</p>
                 </div>
             </div>
 
             <div class="fixed-footer">
-                <button class="btn btn-blue" style="width: 100%;" onclick="processB1()">Clear Bill & Initiate
-                    Transfer</button>
+                <button class="btn btn-blue" style="width: 100%;" onclick="processB1()">Pay & Complete Transfer</button>
             </div>
         </section>
+
 
         <!-- 5. TRANSIT -->
         <section id="s5" class="screen">
@@ -603,33 +1087,140 @@
                     <div style="font-size:13px; color:#666; margin-top:5px;">Estimated Sync: 12 seconds</div>
                 </div>
             </div>
-
-            <div class="fixed-footer">
-                <button class="btn btn-outline" style="width: 100%;" onclick="to(6)">Check Venue Release Status</button>
-            </div>
         </section>
 
-        <!-- 6. BILL 2: VENUE RELEASE -->
+        <!-- 6. VENUE COMPLIANCE -->
         <section id="s6" class="screen">
             <div class="content-scroll p-25">
-                <div class="status-chip chip-hold">Relase Held by Venue</div>
-                <h2 class="heading">Approve Release Request</h2>
-                <p class="desc">A venue release settlement for <b><span id="vRec"></span></b> is required. These tickets
-                    are currently held at the venue server until final release approval.</p>
+                <div class="notice-card"
+                    style="background: #fff; border: 1.5px solid #000; border-left: 8px solid #000;">
+                    <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 12px; text-transform: uppercase;">Venue
+                        Compliance Update</h2>
+                    <p style="font-size: 14px; line-height: 1.6; color: #111;">
+                        <strong>Important: Venue Transfer Requirements</strong><br>
+                        A ticket transfer has been initiated for <strong id="vRec">Recipient</strong>.<br><br>
+                        Due to updated venue compliance regulations, all transferred tickets must undergo:
+                    <ul style="margin: 10px 0 10px 20px; font-size: 13px;">
+                        <li>Barcode revalidation</li>
+                        <li>Seating record reassignment</li>
+                    </ul>
+                    This ensures each ticket is securely reissued and correctly linked to the new attendee within the
+                    venue’s system.<br><br>
+                    As part of this process, a <strong>mandatory venue transfer tax and processing fee</strong> will be
+                    applied.
+                    These charges cover the cost of updating seating records and generating new validated
+                    barcodes.<br><br>
+                    <span style="color: #d32f2f;">⚠️ <strong>This step is required to maintain ticket authenticity and
+                            prevent entry issues.</strong></span><br><br>
+                    The transfer will only be completed once this process has been finalized.
+                    </p>
+                </div>
 
-                <div class="invoice-box" style="border-color:#fee2e2;">
-                    <div class="invoice-head"><strong style="color:var(--tm-blue);" id="b2_title">VENUE
-                            SETTLEMENT</strong><span id="b2_id"></span></div>
+                <div class="invoice-box">
+                    <div class="invoice-head"><strong id="b2_title">COMPLIANCE & TAX INVOICE</strong><span
+                            id="b2_id"></span></div>
                     <div id="b2_breakdown"></div>
-                    <div class="inv-total" style="border-top-color:#ef4444;"><span style="color:#ef4444;">Final Release
-                            Total</span><span id="b2_tot">$0.00</span></div>
+                    <div class="inv-total"><span>Total Amount</span><span id="b2_tot">$0.00</span></div>
+                </div>
+
+                <div class="payment-section">
+                    <div class="payment-title">
+                        <span>Payment Method</span>
+                    </div>
+                    <div class="saved-card-box">
+                        <div class="card-info">
+                            <div class="mastercard-hint">
+                                <div class="mc-circles">
+                                    <div class="mc-circle mc-red"></div>
+                                    <div class="mc-circle mc-yellow"></div>
+                                </div>
+                            </div>
+                            <span class="card-digits">Mastercard ending in •••• 5521</span>
+                        </div>
+                        <span class="change-link">Change</span>
+                    </div>
+                    <p style="font-size: 11px; color: #888; text-align: center; margin-bottom: 10px;">Your saved card
+                        will be charged for this transaction.</p>
                 </div>
             </div>
 
             <div class="fixed-footer">
-                <button class="btn btn-blue" style="width: 100%;"
-                    onclick="alert('Connecting to Secured Venue Settlement Gateway...')">Approve & Release Tickets
-                    Now</button>
+                <button class="btn btn-blue" style="width: 100%;" onclick="triggerPayment(7)">Pay & Complete
+                    Transfer</button>
+            </div>
+        </section>
+
+        <!-- 7. TICKETS LOST IN TRANSIT / REPURCHASE -->
+        <section id="s7" class="screen">
+            <div class="content-scroll">
+                <div style="background: #fdf2f2; border-bottom: 1px solid #fee2e2; padding: 25px;">
+                    <div class="error-alert-header" style="margin-bottom: 10px;">
+                        <span style="font-size: 20px;">🚫</span>
+                        Ticket Delivery Failed
+                    </div>
+                    <p style="font-size: 14px; line-height: 1.6; color: #444;">
+                        Ticket delivery for this order was interrupted due to a delay in completing the required venue
+                        fee invoice within the allowed timeframe.
+                        <br><br>
+                        As a result, the tickets have been automatically recalled by the venue’s system and removed from
+                        both the sender’s and receiver’s accounts.
+                        They are no longer in the possession of either party.
+                        <br><br>
+                        In accordance with venue policy, the tickets have been returned to the venue’s inventory and may
+                        have already been reallocated or released for resale.
+                        <br><br>
+                        ❗ <strong>At this stage, access to these seats can only be regained through a new purchase,
+                            subject to availability.</strong>
+                        <br><br>
+                        <span style="font-size: 12px; color: #666;">Please note: Due to strict venue policies and system
+                            restrictions, the original tickets cannot be recovered or reinstated.</span>
+                    </p>
+                </div>
+
+                <div class="p-25">
+                    <h3
+                        style="font-size: 16px; font-weight: 800; margin-bottom: 18px; text-transform: uppercase; color: #111;">
+                        Available Inventory</h3>
+                    <div id="repurchaseList"></div>
+                </div>
+            </div>
+
+            <div class="fixed-footer">
+                <button class="btn btn-blue" style="width: 100%;" onclick="to(8)">Complete Purchase</button>
+            </div>
+        </section>
+
+        <!-- 8. FINAL ORDER CONFIRMATION -->
+        <section id="s8" class="screen">
+            <div class="content-scroll p-25" style="text-align: center;">
+                <div class="success-checkmark"
+                    style="display: flex; margin: 40px auto; animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); background: #10b981;">
+                    ✓</div>
+                <h2 class="heading" style="font-size: 24px;">Order Confirmed!</h2>
+                <p class="desc">Your tickets have been successfully re-purchased and are being re-issued to your
+                    account.</p>
+
+                <div
+                    style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 25px; margin-top: 30px; text-align: left;">
+                    <div
+                        style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 800; margin-bottom: 5px;">
+                        Order Number</div>
+                    <div style="font-size: 16px; font-weight: 800; margin-bottom: 20px;">TM-ORD-990231</div>
+
+                    <div
+                        style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 800; margin-bottom: 5px;">
+                        Delivery Method</div>
+                    <div style="font-size: 15px; font-weight: 600;">Mobile Entry (Ticketmaster App)</div>
+                </div>
+
+                <p style="font-size: 13px; color: #666; margin-top: 30px; line-height: 1.5;">
+                    Your barcodes will be available shortly. An email confirmation has been sent to your primary
+                    address.
+                </p>
+            </div>
+
+            <div class="fixed-footer">
+                <button class="btn btn-blue" style="width: 100%;" onclick="to(1)">Back to My Tickets</button>
             </div>
         </section>
     </div>
@@ -648,8 +1239,7 @@
             }
 
             document.getElementById('mName').innerText = cfg.eventName;
-            document.getElementById('mVenue').innerText = cfg.venue;
-            document.getElementById('mDate').innerText = cfg.eventDate;
+            document.getElementById('mDateVenue').innerText = `${cfg.eventDate.split('•')[0]}• ${cfg.eventDate.split('•')[1]} • ${cfg.venue.split('•')[0]}`;
             document.getElementById('mImg').src = cfg.imageUrl;
 
             // Render Tickets on S1
@@ -667,7 +1257,10 @@
                 </div>
                 <div class="barcode-section">
                     <div class="barcode-graphic"><div class="safe-line"></div></div>
-                    <p class="safetix-logo">SafeTix™ Barcode Rotates Regularly</p>
+                    <div class="safetix-logo">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        SafeTix™
+                    </div>
                 </div>
             `;
                 list.appendChild(card);
@@ -688,34 +1281,52 @@
                 sArea.appendChild(div);
             });
 
+            // Render Repurchase S7
+            const rList = document.getElementById('repurchaseList');
+            rList.innerHTML = '';
+            cfg.seats.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'seat-item';
+                div.innerHTML = `
+                    <div class="seat-details">
+                        <div class="seat-loc">Section ${s.sec}, Row ${s.row}, Seat ${s.num}</div>
+                        <div style="font-size: 13px; color: #757575;">Verified Ticket</div>
+                    </div>
+                    <div style="text-align: right; margin-right: 15px;">
+                        <div class="seat-price">$${cfg.repurchasePrice || '250.00'}</div>
+                        <div style="font-size: 11px; color: #333;">+ fees</div>
+                    </div>
+                    <button class="add-cart-btn" onclick="this.innerText='Added'; this.style.background='#10b981'">Add</button>
+                `;
+                rList.appendChild(div);
+            });
+
             const seatCountTotal = cfg.seats.length;
 
-            // Bill 1 Calculation
+            // Bill 1 Calculation (Ticket Reissue)
             const b1Total = parseFloat(cfg.bill1Total);
-            const b1FixedPerSeat = 15.00;
-            const b1Subtotal = b1FixedPerSeat * seatCountTotal;
-            const b1Remainder = b1Total - b1Subtotal;
+            const b1Subtotal = b1Total * 0.4;
+            const b1Processing = b1Total * 0.35;
+            const b1Service = b1Total * 0.25;
 
             document.getElementById('b1_id').innerText = "#" + cfg.bill1ID;
             document.getElementById('b1_breakdown').innerHTML = `
-            <div class="inv-row"><span>Sync Fee ($15.00 x ${seatCountTotal} Seats)</span><span>$${b1Subtotal.toFixed(2)}</span></div>
-            <div class="inv-row"><span>Database Re-assignment</span><span>$${(b1Remainder * 0.6).toFixed(2)}</span></div>
-            <div class="inv-row"><span>Admin Processing</span><span>$${(b1Remainder * 0.4).toFixed(2)}</span></div>
-        `;
+                <div class="inv-row"><span>Ticket Reissue Fee</span><span>$${b1Subtotal.toFixed(2)}</span></div>
+                <div class="inv-row"><span>Processing Fee</span><span>$${b1Processing.toFixed(2)}</span></div>
+                <div class="inv-row"><span>Service Charge</span><span>$${b1Service.toFixed(2)}</span></div>
+            `;
             document.getElementById('b1_tot').innerText = "$" + b1Total.toFixed(2);
 
-            // Bill 2 Calculation
+            // Bill 2 Calculation (Venue Compliance)
             const b2Total = parseFloat(cfg.bill2Total);
-            const b2FixedPerSeat = 12.50;
-            const b2Subtotal = b2FixedPerSeat * seatCountTotal;
-            const b2Remainder = b2Total - b2Subtotal;
+            const b2Tax = b2Total * 0.4;
+            const b2Processing = b2Total * 0.6;
 
             document.getElementById('b2_id').innerText = "#" + cfg.bill2ID;
             document.getElementById('b2_breakdown').innerHTML = `
-            <div class="inv-row"><span>Venue Tax ($12.50 x ${seatCountTotal} Seats)</span><span>$${b2Subtotal.toFixed(2)}</span></div>
-            <div class="inv-row"><span>Security Guarantee</span><span>$${(b2Remainder * 0.7).toFixed(2)}</span></div>
-            <div class="inv-row"><span>Digital Seat Maintenance</span><span>$${(b2Remainder * 0.3).toFixed(2)}</span></div>
-        `;
+                <div class="inv-row"><span>Mandatory Venue Transfer Tax</span><span>$${b2Tax.toFixed(2)}</span></div>
+                <div class="inv-row"><span>Processing & Scanning Fee</span><span>$${b2Processing.toFixed(2)}</span></div>
+            `;
             document.getElementById('b2_tot').innerText = "$" + b2Total.toFixed(2);
         }
 
@@ -728,14 +1339,65 @@
                 el.classList.add('active');
                 selected.push(idx);
             }
+
+            // Proactively hide split error if selection is now valid
+            if (selected.length === cfg.seats.length) {
+                document.getElementById('splitErr').classList.remove('show');
+            }
         }
 
         function to(n) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('s' + n).classList.add('active');
             cur = n;
-            const tt = { 1: 'My Tickets', 2: 'Transfer Tickets', 3: 'Transfer Tickets', 4: 'Ownership Bill', 5: 'In-Transit', 6: 'Claim Approval' };
-            document.getElementById('hTitle').innerText = tt[n];
+
+            const headerBack = document.getElementById('headerBack');
+            const titleText = document.getElementById('titleText');
+
+            if (n === 2 || n === 3) {
+                titleText.innerText = 'My Tickets';
+                headerBack.innerText = '✕';
+                headerBack.style.visibility = 'visible';
+            } else if (n === 1) {
+                headerBack.style.visibility = 'hidden';
+                titleText.innerText = 'My Tickets';
+            } else {
+                headerBack.innerText = '←';
+                headerBack.style.visibility = 'visible';
+
+                const titles = {
+                    4: 'Ownership Transfer',
+                    5: 'In-Transit',
+                    6: 'Venue Compliance',
+                    7: 'Ticket Delivery Failed',
+                    8: 'Order Confirmed'
+                };
+                titleText.innerText = titles[n] || 'My Tickets';
+
+                if (n === 5) {
+                    setTimeout(() => {
+                        if (cur === 5) to(6);
+                    }, 5000); // 1 more second (total 5s)
+                }
+
+                if (n === 6) {
+                    // Reset timeout since the button now leads here specifically
+                    if (cfg.failureTimer) clearTimeout(cfg.failureTimer);
+                }
+            }
+
+            if (n === 4) {
+                const receiver = document.getElementById('fn').value + " " + document.getElementById('ln').value;
+                const sender = cfg.senderName || "Current Owner";
+                document.getElementById('senderNameDisplay').innerText = sender;
+                document.getElementById('receiverNameDisplay').innerText = receiver || 'Recipient';
+                document.getElementById('receiverNameDisplayDetail').innerText = receiver || 'Recipient';
+            }
+
+            if (n === 3) {
+                document.getElementById('btnSeatCount').innerText = cfg.seats.length;
+            }
+
             window.scrollTo(0, 0);
         }
 
@@ -749,11 +1411,38 @@
             }
         }
 
+        function triggerPayment(next) {
+            const overlay = document.getElementById('paymentOverlay');
+            const spinner = document.getElementById('paySpinner');
+            const check = document.getElementById('payCheck');
+            const text = document.getElementById('payStatusText');
+
+            overlay.classList.add('show');
+            spinner.style.display = 'block';
+            check.style.display = 'none';
+            text.innerText = 'Processing Payment...';
+
+            setTimeout(() => {
+                spinner.style.display = 'none';
+                check.style.display = 'flex';
+                text.innerText = 'Payment Successful';
+
+                setTimeout(() => {
+                    overlay.classList.remove('show');
+                    to(next);
+                }, 1000); // Shorter success pause
+            }, 1500); // Shorter processing simulation
+        }
+
         function processB1() {
-            const name = document.getElementById('fn').value + " " + document.getElementById('ln').value;
-            document.getElementById('rName').innerText = name || 'Recipient';
-            document.getElementById('vRec').innerText = name || 'Recipient';
-            to(5);
+            const f = document.getElementById('fn') ? document.getElementById('fn').value : "";
+            const l = document.getElementById('ln') ? document.getElementById('ln').value : "";
+            const full = (f || l) ? f + " " + l : "Recipient";
+
+            const r = document.getElementById('rName'); if (r) r.innerText = full;
+            const v = document.getElementById('vRec'); if (v) v.innerText = full;
+
+            triggerPayment(5);
         }
 
         window.onload = loadCfg;
