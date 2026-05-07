@@ -6,35 +6,42 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>TM Admin Dashboard</title>
+
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="icon" type="image/png" href="icon.png?v=2">
+    <link rel="apple-touch-icon" href="icon.png?v=2">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
         :root {
-            --tm-blue: #026cdf;
-            --tm-bg: #f5f5f5;
+            --tm-blue: #0250d4;
+            --tm-bg: #f3f5f8;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
         }
 
         body {
             background: var(--tm-bg);
-            color: #333;
-            padding-bottom: 80px;
+            color: #111;
+            padding-bottom: calc(100px + var(--safe-bottom));
         }
 
         header {
-            background: #111;
+            background: #1c1c1e;
             color: #fff;
-            padding: 16px;
+            /* Extra top padding for mobile safe area & notch! Gives plenty of space! */
+            padding: calc(max(var(--safe-top), 20px) + 16px) 16px 16px 16px;
             text-align: center;
             position: sticky;
             top: 0;
@@ -42,82 +49,160 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        header a {
+        /* Improved tappable hit-box for the back button */
+        .btn-back {
             color: #fff;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px 8px 0;
+            cursor: pointer;
+        }
+
+        .header-title {
+            font-weight: 900;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px 16px;
+            padding: 24px 16px;
         }
 
         .card {
             background: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eaeaea;
         }
 
         h2 {
-            font-size: 16px;
+            font-size: 13.5px;
             text-transform: uppercase;
-            margin-bottom: 15px;
-            color: #000;
-            border-left: 4px solid var(--tm-blue);
-            padding-left: 10px;
+            margin-bottom: 20px;
+            color: #111;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background: var(--tm-blue);
+            margin-right: 12px;
+            border-radius: 4px;
         }
 
         .form-g {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .form-g label {
             display: block;
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 11.5px;
+            font-weight: 800;
             color: #666;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             text-transform: uppercase;
         }
 
         .form-g input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
+            padding: 14px 16px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #111;
+            transition: border-color 0.2s;
+            background: #fdfdfd;
+        }
+
+        .form-g input:focus {
+            border-color: var(--tm-blue);
+            background: #fff;
         }
 
         .seat-row {
             display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 4px;
+            gap: 12px;
+            margin-bottom: 12px;
+            background: #f9fbfd;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #eee;
             align-items: flex-end;
         }
 
-        .seat-row input {
+        .seat-row>div {
             flex: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        }
+
+        .seat-row label {
+            display: block;
+            font-size: 10.5px;
+            color: #888;
+            font-weight: 800;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .seat-row input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
         }
 
         .btn-red {
-            background: #d32f2f;
+            background: #fde8e8;
+            color: #d32f2f;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 900;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .btn-red:active {
+            background: #f8dbdb;
+        }
+
+        .btn-add {
+            background: #111;
             color: #fff;
             border: none;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .fixed-bottom {
@@ -125,32 +210,49 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 16px;
-            background: #fff;
-            border-top: 1px solid #ddd;
-            text-align: center;
+            padding: 16px 16px calc(16px + var(--safe-bottom));
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #eaeaea;
+            display: flex;
+            justify-content: center;
+            z-index: 20;
         }
 
         .btn-save {
             background: var(--tm-blue);
             color: #fff;
             font-size: 16px;
-            font-weight: 700;
-            padding: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 18px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             width: 100%;
-            max-width: 600px;
+            max-width: 568px;
             cursor: pointer;
+            box-shadow: 0 4px 14px rgba(2, 80, 212, 0.3);
+            text-transform: uppercase;
+        }
+
+        .btn-save:active {
+            opacity: 0.9;
+            transform: scale(0.99);
         }
     </style>
 </head>
 
 <body>
     <header>
-        <a href="index.html">← Back</a>
-        <div style="font-weight:900;">Admin Panel</div>
-        <div style="width:50px;"></div>
+        <a href="index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+            </svg>
+            Back
+        </a>
+        <div class="header-title">Admin Config</div>
+        <div style="width: 70px;"></div> <!-- Spacer to preserve flex centering -->
     </header>
 
     <div class="container">
@@ -176,31 +278,51 @@
         </div>
 
         <div class="card">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h2>Tickets Inventory</h2>
-                <button onclick="addSeat()"
-                    style="background:#111; color:#fff; border:none; padding:6px 12px; border-radius:4px; font-weight:700;">+
-                    Ad</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="margin:0;">Tickets Inventory</h2>
+                <button class="btn-add" onclick="addSeat()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Seat
+                </button>
             </div>
             <div id="seatsContainer"></div>
         </div>
 
         <div class="card">
             <h2>Financial Configuration</h2>
-            <div class="form-g"><label>Bill 1 (Ownership) Total $</label><input type="text" id="bill1Total"
-                    value="65.00"></div>
-            <div class="form-g"><label>Bill 1 ID Prefix</label><input type="text" id="bill1ID" value="OWN-7721"></div>
-            <div class="form-g"><label>Bill 2 (Venue Tax) Total $</label><input type="text" id="bill2Total"
-                    value="70.00"></div>
-            <div class="form-g"><label>Bill 2 ID Prefix</label><input type="text" id="bill2ID" value="V-8821"></div>
-            <div class="form-g"><label>Original Owner Name</label><input type="text" id="senderName" value="Tony"></div>
-            <div class="form-g"><label>Repurchase Price $</label><input type="text" id="repurchasePrice" value="250.00">
+            <div class="form-g">
+                <label>Bill 1 (Ownership) Total $</label>
+                <input type="text" id="bill1Total" value="65.00">
+            </div>
+            <div class="form-g">
+                <label>Bill 1 ID Prefix</label>
+                <input type="text" id="bill1ID" value="OWN-7721">
+            </div>
+            <div class="form-g">
+                <label>Bill 2 (Venue Tax) Total $</label>
+                <input type="text" id="bill2Total" value="70.00">
+            </div>
+            <div class="form-g">
+                <label>Bill 2 ID Prefix</label>
+                <input type="text" id="bill2ID" value="V-8821">
+            </div>
+            <div class="form-g">
+                <label>Original Owner Name</label>
+                <input type="text" id="senderName" value="Tony">
+            </div>
+            <div class="form-g">
+                <label>Repurchase Price $</label>
+                <input type="text" id="repurchasePrice" value="250.00">
             </div>
         </div>
     </div>
 
     <div class="fixed-bottom">
-        <button class="btn-save" onclick="saveData()">Save Changes</button>
+        <button class="btn-save" onclick="saveData()">Save All Changes</button>
     </div>
 
     <script>
@@ -208,10 +330,12 @@
             const d = document.createElement('div');
             d.className = 'seat-row';
             d.innerHTML = `
-                <div><label style="font-size:10px; color:#666;">Sec</label><input class="i-sec" value="${sec}"></div>
-                <div><label style="font-size:10px; color:#666;">Row</label><input class="i-row" value="${row}"></div>
-                <div><label style="font-size:10px; color:#666;">Seat</label><input class="i-num" value="${num}"></div>
-                <button class="btn-red" onclick="this.parentElement.remove()">✕</button>
+                <div><label>Sec</label><input class="i-sec" value="${sec}"></div>
+                <div><label>Row</label><input class="i-row" value="${row}"></div>
+                <div><label>Seat</label><input class="i-num" value="${num}"></div>
+                <button class="btn-red" onclick="this.parentElement.remove()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             `;
             document.getElementById('seatsContainer').appendChild(d);
         }
@@ -239,25 +363,38 @@
         }
 
         function saveData() {
-            const seats = [];
-            document.querySelectorAll('.seat-row').forEach(r => {
-                seats.push({ sec: r.querySelector('.i-sec').value, row: r.querySelector('.i-row').value, num: r.querySelector('.i-num').value });
-            });
-            const data = {
-                eventName: document.getElementById('eventName').value,
-                eventDate: document.getElementById('eventDate').value,
-                venue: document.getElementById('venue').value,
-                imageUrl: document.getElementById('imageUrl').value,
-                bill1Total: document.getElementById('bill1Total').value,
-                bill1ID: document.getElementById('bill1ID').value,
-                bill2Total: document.getElementById('bill2Total').value,
-                bill2ID: document.getElementById('bill2ID').value,
-                senderName: document.getElementById('senderName').value,
-                repurchasePrice: document.getElementById('repurchasePrice').value,
-                seats
-            };
-            localStorage.setItem('tm_ticket_data_v2', JSON.stringify(data));
-            alert('Saved successfully!');
+            const btn = document.querySelector('.btn-save');
+            btn.innerHTML = 'Saving...';
+            btn.style.opacity = '0.7';
+
+            setTimeout(() => {
+                const seats = [];
+                document.querySelectorAll('.seat-row').forEach(r => {
+                    seats.push({ sec: r.querySelector('.i-sec').value, row: r.querySelector('.i-row').value, num: r.querySelector('.i-num').value });
+                });
+                const data = {
+                    eventName: document.getElementById('eventName').value,
+                    eventDate: document.getElementById('eventDate').value,
+                    venue: document.getElementById('venue').value,
+                    imageUrl: document.getElementById('imageUrl').value,
+                    bill1Total: document.getElementById('bill1Total').value,
+                    bill1ID: document.getElementById('bill1ID').value,
+                    bill2Total: document.getElementById('bill2Total').value,
+                    bill2ID: document.getElementById('bill2ID').value,
+                    senderName: document.getElementById('senderName').value,
+                    repurchasePrice: document.getElementById('repurchasePrice').value,
+                    seats
+                };
+                localStorage.setItem('tm_ticket_data_v2', JSON.stringify(data));
+
+                btn.innerHTML = 'Saved ✓';
+                btn.style.background = '#10b981';
+                btn.style.opacity = '1';
+                setTimeout(() => {
+                    btn.innerHTML = 'Save All Changes';
+                    btn.style.background = 'var(--tm-blue)';
+                }, 1500);
+            }, 300);
         }
 
         window.onload = loadData;
