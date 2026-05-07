@@ -153,13 +153,14 @@
         }
 
         .info-title {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 900;
             line-height: 1.2;
             margin-bottom: 24px;
             text-transform: uppercase;
             letter-spacing: -0.3px;
             color: #fff;
+            overflow-wrap: break-word;
         }
 
         .info-venue-row {
@@ -197,12 +198,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
-            padding: 18px;
-            font-size: 17px;
+            gap: 6px;
+            padding: 10px 14px;
+            font-size: 13.5px;
             font-weight: 700;
             width: 100%;
             cursor: pointer;
+        }
+
+        .view-tickets-btn svg {
+            width: 18px;
+            height: 18px;
         }
 
         /* TABS */
@@ -224,16 +230,21 @@
             position: relative;
         }
 
-        .tab.active {
-            color: #000;
-        }
-
-        .tab.active::after {
+        .tab::after {
             content: '';
             position: absolute;
             bottom: -1px;
             left: 15%;
             right: 15%;
+            height: 1.5px;
+            background: #d4d4d4;
+        }
+
+        .tab.active {
+            color: #000;
+        }
+
+        .tab.active::after {
             height: 3px;
             background: #000;
         }
@@ -279,11 +290,10 @@
         }
 
         .ticket-presale-banner {
-            background: #e0e0e0;
             color: #000;
             font-size: 10.5px;
             font-weight: 900;
-            padding: 12px 16px;
+            padding: 16px 24px 0 24px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -1068,19 +1078,15 @@
                 cfg = {
                     eventName: "BTS WORLD TOUR 'ARIRANG' IN CHICAGO", venue: "Soldier Field - Chicago, IL",
                     eventDate: "FRI • AUG 28, 2026 • 20:00", imageUrl: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&q=80&w=1000",
+                    ticketType: "ARMY MEMBERSHIP PRESALE",
                     bill1Total: '65.00', bill1ID: 'OWN-7721', bill2Total: '70.00', bill2ID: 'V-8821',
                     seats: [{ sec: '143', row: '6', num: '1' }, { sec: '143', row: '6', num: '2' }, { sec: '143', row: '6', num: '3' }, { sec: '143', row: '6', num: '4' }],
                     senderName: "Current Owner", repurchasePrice: "250.00"
                 };
             }
 
-            // Using identical split string logic to match the new screenshot's multiline format!
-            const titleSplit = cfg.eventName.split(" IN ");
-            if (titleSplit.length > 1) {
-                document.getElementById('hTitle').innerHTML = titleSplit[0] + "<br/>IN " + titleSplit[1];
-            } else {
-                document.getElementById('hTitle').innerHTML = cfg.eventName;
-            }
+            // Injecting the title directly so it can wrap naturally depending on screen size
+            document.getElementById('hTitle').innerText = cfg.eventName;
 
             document.getElementById('hDate').innerText = cfg.eventDate;
             document.getElementById('hVenue').innerText = cfg.venue;
@@ -1093,7 +1099,7 @@
             cfg.seats.forEach(s => {
                 tl.innerHTML += `
                 <div class="ticket-card-ui">
-                    <div class="ticket-presale-banner">ARMY MEMBERSHIP PRESALE</div>
+                    <div class="ticket-presale-banner">${cfg.ticketType || 'ARMY MEMBERSHIP PRESALE'}</div>
                     <div class="ticket-seats-row">
                         <div class="ts-col"><div class="ts-lbl">SECTION</div><div class="ts-val">${s.sec}</div></div>
                         <div class="ts-col"><div class="ts-lbl">ROW</div><div class="ts-val">${s.row}</div></div>

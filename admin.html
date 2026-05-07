@@ -256,6 +256,16 @@
     </header>
 
     <div class="container">
+        <div style="margin-bottom: 20px; text-align: right;">
+            <button
+                style="background:none; color:var(--tm-blue); border:1.5px solid var(--tm-blue); padding:10px 16px; border-radius:6px; font-weight:800; cursor:pointer; font-size:12.5px;"
+                onclick="resetToTemplate()">
+                ↻ LOAD BOILERPLATE EXAMPLE
+            </button>
+            <p style="font-size: 11.5px; color:#666; margin-top:8px; font-weight:600;">Overrides your config with a
+                perfect template to make editing easier.</p>
+        </div>
+
         <div class="card">
             <h2>Event Details</h2>
             <div class="form-g">
@@ -274,6 +284,10 @@
                 <label>Header Image URL</label>
                 <input type="text" id="imageUrl"
                     value="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&q=80&w=1000">
+            </div>
+            <div class="form-g">
+                <label>Ticket Type Banner</label>
+                <input type="text" id="ticketType" value="ARMY MEMBERSHIP PRESALE">
             </div>
         </div>
 
@@ -348,6 +362,7 @@
                 document.getElementById('eventDate').value = data.eventDate;
                 document.getElementById('venue').value = data.venue;
                 document.getElementById('imageUrl').value = data.imageUrl;
+                document.getElementById('ticketType').value = data.ticketType || 'ARMY MEMBERSHIP PRESALE';
                 document.getElementById('bill1Total').value = data.bill1Total;
                 document.getElementById('bill1ID').value = data.bill1ID;
                 document.getElementById('bill2Total').value = data.bill2Total;
@@ -377,6 +392,7 @@
                     eventDate: document.getElementById('eventDate').value,
                     venue: document.getElementById('venue').value,
                     imageUrl: document.getElementById('imageUrl').value,
+                    ticketType: document.getElementById('ticketType').value,
                     bill1Total: document.getElementById('bill1Total').value,
                     bill1ID: document.getElementById('bill1ID').value,
                     bill2Total: document.getElementById('bill2Total').value,
@@ -395,6 +411,13 @@
                     btn.style.background = 'var(--tm-blue)';
                 }, 1500);
             }, 300);
+        }
+
+        function resetToTemplate() {
+            if (confirm("Are you sure you want to load the boilerplate template? This will replace your current configuration.")) {
+                localStorage.removeItem('tm_ticket_data_v2');
+                location.reload();
+            }
         }
 
         window.onload = loadData;
