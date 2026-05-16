@@ -153,12 +153,12 @@
         }
 
         .info-title {
-            font-size: 20px;
+            font-size: 21px;
             font-weight: 900;
-            line-height: 1.2;
+            line-height: 1.15;
             margin-bottom: 24px;
             text-transform: uppercase;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.5px;
             color: #fff;
             overflow-wrap: break-word;
         }
@@ -198,24 +198,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 6px;
-            padding: 10px 14px;
-            font-size: 13.5px;
-            font-weight: 700;
+            gap: 8px;
+            padding: 14px 14px; /* Taller button */
+            font-size: 14.5px;
+            font-weight: 800;
             width: 100%;
             cursor: pointer;
+            letter-spacing: 0.2px;
         }
 
         .view-tickets-btn svg {
-            width: 18px;
-            height: 18px;
+            width: 28px; /* Bigger as requested */
+            height: 28px;
         }
 
         /* TABS */
         .tabs-row {
             margin-top: 20px;
             display: flex;
-            border-bottom: 1px solid #e2e2e2;
             background: #fff;
             flex-shrink: 0;
         }
@@ -280,28 +280,30 @@
 
         /* TICKET CARDS (GREY SHADE) */
         .ticket-card-ui {
-            margin: 0 16px 16px;
-            background: #f0f0f0;
-            border-radius: 8px;
-            overflow: hidden;
+            margin: 0 16px 12px;
             display: flex;
             flex-direction: column;
-            flex-shrink: 0;
+            gap: 2px; /* Tiny but noticeable space */
+            background: transparent;
         }
 
         .ticket-presale-banner {
+            background: #e6e6e6; /* Darker grey */
             color: #000;
-            font-size: 10.5px;
-            font-weight: 900;
-            padding: 16px 24px 0 24px;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 12px 20px; /* More compact banner */
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
+            border-radius: 0; /* Remove rounded corners */
         }
 
         .ticket-seats-row {
+            background: #e6e6e6; /* Darker grey */
             display: flex;
-            padding: 20px 24px;
+            padding: 18px 20px; /* Match banner padding */
             justify-content: space-between;
+            border-radius: 0; /* Remove rounded corners */
         }
 
         .ts-col {
@@ -322,17 +324,18 @@
         }
 
         .ts-lbl {
-            font-size: 10.5px;
+            font-size: 10px;
             color: #666;
-            font-weight: 800;
-            margin-bottom: 4px;
+            font-weight: 900;
+            margin-bottom: 2px;
             text-transform: uppercase;
         }
 
         .ts-val {
-            font-size: 20px;
+            font-size: 19px;
             font-weight: 900;
             color: #000;
+            letter-spacing: -0.5px;
         }
 
         /* FAB PILL */
@@ -454,7 +457,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #f3f3f3;
         }
 
         .seat-bubbles-wrap {
@@ -789,12 +791,17 @@
                 <div class="info-venue-row">
                     <span id="hVenue">Soldier Field - Chicago, IL</span>
                     <div class="ticket-icon-qty">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
-                            <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"></path>
-                            <path d="M16 18l2 2H4a2 2 0 0 1-2-2v-8l2 2"></path>
-                            <line x1="15" y1="6" x2="15" y2="18" stroke-dasharray="2 2"></line>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Back ticket shadow/offset -->
+                            <rect x="10" y="4" width="9" height="13" rx="0.5" transform="rotate(15 14.5 10.5)"></rect>
+                            <!-- Front ticket -->
+                            <rect x="5" y="5" width="9" height="13" rx="0.5" transform="rotate(-5 9.5 11.5)" fill="#252525"></rect>
+                            <rect x="5" y="5" width="9" height="13" rx="0.5" transform="rotate(-5 9.5 11.5)"></rect>
+                            <!-- Detailed Inner box and line -->
+                            <rect x="7" y="7.5" width="5" height="3" rx="0.2" transform="rotate(-5 9.5 11.5)"></rect>
+                            <line x1="7" y1="12" x2="12" y2="12" transform="rotate(-5 9.5 11.5)"></line>
                         </svg>
-                        <span id="hCount">x4</span>
+                        <span id="hCount" style="font-size: 20px; font-weight: 800; margin-left: 2px;">x4</span>
                     </div>
                 </div>
             </div>
@@ -802,16 +809,21 @@
             <!-- Bottom Connected Blue Button -->
             <div class="sc-blue-block">
                 <button class="view-tickets-btn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"
-                        stroke-linecap="square">
-                        <path d="M4 6h16v12H4z"></path>
-                        <line x1="8" y1="6" x2="8" y2="18"></line>
-                        <line x1="11" y1="6" x2="11" y2="18"></line>
-                        <line x1="13" y1="6" x2="13" y2="18"></line>
-                        <line x1="17" y1="6" x2="17" y2="18"></line>
-                        <line x1="4" y1="12" x2="6" y2="12"></line>
-                        <line x1="18" y1="12" x2="20" y2="12"></line>
-                    </svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Brackets -->
+                            <path d="M5 8.5V5h3.5"></path>
+                            <path d="M15.5 5H19v3.5"></path>
+                            <path d="M5 15.5V19h3.5"></path>
+                            <path d="M15.5 19H19v-3.5"></path>
+                            <!-- Barcode Lines (More detailed) -->
+                            <line x1="8" y1="8" x2="8" y2="16"></line>
+                            <line x1="9.5" y1="8" x2="9.5" y2="16"></line>
+                            <line x1="11" y1="8" x2="11" y2="16"></line>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="13" y1="8" x2="13" y2="16"></line>
+                            <line x1="14.5" y1="8" x2="14.5" y2="16"></line>
+                            <line x1="16" y1="8" x2="16" y2="16"></line>
+                        </svg>
                     <span style="letter-spacing: 0.5px;">View Tickets</span>
                 </button>
             </div>
@@ -881,10 +893,12 @@
                 <div class="s2-sec-text">Section <strong id="shSec">133</strong>, Row <strong id="shRow">3</strong>
                 </div>
                 <div class="s2-count-text">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
-                        <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"></path>
-                        <path d="M16 18l2 2H4a2 2 0 0 1-2-2v-8l2 2"></path>
-                        <line x1="15" y1="6" x2="15" y2="18" stroke-dasharray="2 2"></line>
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="10" y="4" width="9" height="13" rx="0.5" transform="rotate(15 14.5 10.5)"></rect>
+                        <rect x="5" y="5" width="9" height="13" rx="0.5" transform="rotate(-5 9.5 11.5)" fill="#fff"></rect>
+                        <rect x="5" y="5" width="9" height="13" rx="0.5" transform="rotate(-5 9.5 11.5)"></rect>
+                        <rect x="7" y="7.5" width="5" height="3" rx="0.2" transform="rotate(-5 9.5 11.5)"></rect>
+                        <line x1="7" y1="12" x2="12" y2="12" transform="rotate(-5 9.5 11.5)"></line>
                     </svg>
                     <span id="shCount">3 tickets</span>
                 </div>
