@@ -3,409 +3,512 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TM Admin - Ticket Manager</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>TM Admin Dashboard</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/png" href="icon.png?v=3">
+    <link rel="apple-touch-icon" href="icon.png?v=3">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
         :root {
-            --tm-blue: #026cdf;
-            --tm-dark-blue: #0158b8;
-            --tm-bg-gray: #f4f6f9;
-            --tm-border: #e2e8f0;
-            --tm-text-main: #1e293b;
-            --tm-text-muted: #64748b;
+            --tm-blue: #0250d4;
+            --tm-bg: #f3f5f8;
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
-        html,
-        body {
-            height: 100%;
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            overflow: hidden;
-            background-color: #000;
-            font-family: 'Inter', sans-serif;
-            color: var(--tm-text-main);
+            font-family: 'Averta', 'Avenir Next', 'Avenir', 'Inter', -apple-system, sans-serif;
+            font-weight: 400;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
         }
 
-        .app-container {
-            width: 100vw;
-            max-width: 450px;
-            margin: 0 auto;
-            height: 100%;
-            height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            background: #fff;
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+        body {
+            background: var(--tm-bg);
+            color: #111;
+            padding-bottom: calc(100px + var(--safe-bottom));
         }
 
-        /* HEADER */
-        .tm-header {
-            background: #1f2632;
+        header {
+            background: #1c1c1e;
             color: #fff;
-            padding: 0 16px;
+            padding: calc(max(var(--safe-top), 20px) + 16px) 16px 16px 16px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            z-index: 1000;
-            height: 60px;
-            flex-shrink: 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        .back-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
+        .btn-back {
             color: #fff;
             text-decoration: none;
-            font-size: 13px;
-            font-weight: 700;
-            padding: 8px 12px;
-            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            padding: 8px 12px 8px 0;
+            cursor: pointer;
         }
 
         .header-title {
-            font-weight: 800;
+            font-weight: 600;
             font-size: 16px;
-            letter-spacing: -0.2px;
-            flex: 1;
-            text-align: center;
-            margin-right: 60px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* SCREENS - APP FEEL */
-        .content-scroll {
-            position: absolute;
-            top: 60px;
-            bottom: 86px;
-            /* Precise height of the footer */
-            left: 0;
-            right: 0;
-            overflow-y: auto;
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
             padding: 24px 16px;
-            background: var(--tm-bg-gray);
-            -webkit-overflow-scrolling: touch;
         }
 
-        .config-card {
+        .card {
             background: #fff;
             border-radius: 12px;
-            padding: 18px;
-            margin-bottom: 20px;
-            border: 1px solid var(--tm-border);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+            border: 1px solid #eaeaea;
         }
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--tm-blue);
-            padding-left: 10px;
-        }
-
-        .section-header h2 {
-            font-size: 14px;
-            font-weight: 800;
+        h2 {
+            font-size: 13px;
             text-transform: uppercase;
-            color: var(--tm-text-main);
-            margin: 0;
+            margin-bottom: 20px;
+            color: #111;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
         }
 
-        .form-row {
-            margin-bottom: 16px;
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background: var(--tm-blue);
+            margin-right: 12px;
+            border-radius: 4px;
+            flex-shrink: 0;
         }
 
-        .form-row:last-child {
+        .form-g {
+            margin-bottom: 20px;
+        }
+
+        .form-g:last-child {
             margin-bottom: 0;
         }
 
-        .form-row label {
+        .form-g label {
             display: block;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 500;
+            color: #888;
+            margin-bottom: 7px;
             text-transform: uppercase;
-            margin-bottom: 6px;
-            color: var(--tm-text-muted);
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
         }
 
-        .form-row input {
+        .form-g input,
+        .form-g textarea {
             width: 100%;
-            padding: 12px 14px;
-            border: 1.5px solid var(--tm-border);
+            padding: 13px 14px;
+            border: 1.5px solid #e0e0e0;
             border-radius: 8px;
-            font-size: 14px;
-            box-sizing: border-box;
-            background: #fff;
-            transition: all 0.2s;
+            font-size: 15px;
+            font-weight: 400;
+            color: #111;
+            transition: border-color 0.2s;
+            background: #fdfdfd;
+            resize: none;
         }
 
-        .form-row input:focus {
+        .form-g input:focus,
+        .form-g textarea:focus {
             border-color: var(--tm-blue);
+            background: #fff;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(2, 108, 223, 0.08);
         }
 
-        #seatsContainer {
+        .form-g .hint {
+            font-size: 11.5px;
+            color: #aaa;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .map-preview {
+            width: 100%;
+            height: 160px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 12px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .map-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .seat-row {
             display: flex;
-            flex-direction: column;
             gap: 12px;
+            margin-bottom: 12px;
+            background: #f9fbfd;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            align-items: flex-end;
         }
 
-        .seat-entry {
-            background: #f8fafc;
-            border: 1px solid var(--tm-border);
-            border-radius: 10px;
-            padding: 14px;
-            position: relative;
-            transition: transform 0.1s;
+        .seat-row > div {
+            flex: 1;
         }
 
-        .seat-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
+        .seat-row label {
+            display: block;
+            font-size: 10.5px;
+            color: #888;
+            font-weight: 500;
+            margin-bottom: 6px;
+            text-transform: uppercase;
         }
 
-        .seat-grid .form-row {
-            margin-bottom: 0;
+        .seat-row input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 400;
         }
 
-        .btn-remove {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #ff4d4d;
-            color: white;
-            border: 1.5px solid #fff;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
+        .btn-red {
+            background: #fde8e8;
+            color: #d32f2f;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            z-index: 5;
+            transition: background 0.2s;
+            flex-shrink: 0;
         }
 
-        .btn-add-seat {
-            background: #1e293b;
-            color: white;
+        .btn-red:active {
+            background: #f8dbdb;
+        }
+
+        .btn-add {
+            background: #111;
+            color: #fff;
             border: none;
             padding: 8px 16px;
             border-radius: 20px;
+            font-weight: 500;
             font-size: 12px;
-            font-weight: 700;
+            text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* FOOTER */
-        .fixed-footer {
-            position: absolute;
+        .fixed-bottom {
+            position: fixed;
             bottom: 0;
             left: 0;
-            width: 100%;
-            padding: 16px;
-            padding-bottom: calc(16px + env(safe-area-inset-bottom));
-            background: #fff;
-            border-top: 1px solid var(--tm-border);
+            right: 0;
+            padding: 16px 16px calc(16px + var(--safe-bottom));
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #eaeaea;
             display: flex;
-            gap: 12px;
-            flex-shrink: 0;
-            z-index: 1100;
-            box-sizing: border-box;
+            justify-content: center;
+            z-index: 20;
         }
 
         .btn-save {
-            flex: 1;
-            height: 54px;
             background: var(--tm-blue);
-            color: white;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            padding: 18px;
             border: none;
             border-radius: 8px;
-            font-weight: 800;
-            font-size: 15px;
+            width: 100%;
+            max-width: 568px;
             cursor: pointer;
-            transition: 0.2s;
-            box-shadow: 0 4px 12px rgba(2, 108, 223, 0.2);
+            box-shadow: 0 4px 14px rgba(2, 80, 212, 0.3);
+            text-transform: uppercase;
         }
 
         .btn-save:active {
-            background: var(--tm-dark-blue);
-            transform: scale(0.98);
+            opacity: 0.9;
+            transform: scale(0.99);
+        }
+
+        .section-divider {
+            height: 1px;
+            background: #f0f0f0;
+            margin: 16px 0;
         }
     </style>
 </head>
 
 <body>
+    <header>
+        <a href="index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+            </svg>
+            Back
+        </a>
+        <div class="header-title">Admin Config</div>
+        <div style="width: 70px;"></div>
+    </header>
 
-    <div class="app-container">
-        <header class="tm-header">
-            <a href="index.html" class="back-btn">← Back</a>
-            <div class="header-title">Admin Config</div>
-        </header>
-
-        <div class="content-scroll">
-            <!-- EVENT INFO CARD -->
-            <div class="config-card">
-                <div class="section-header">
-                    <h2>Event Information</h2>
-                </div>
-                <div class="form-row">
-                    <label>Event Name</label>
-                    <input type="text" id="eventName" placeholder="e.g. Taylor Swift | The Eras Tour">
-                </div>
-                <div class="form-row">
-                    <label>Full Date String</label>
-                    <input type="text" id="eventDate" placeholder="e.g. Fri • Jul 15, 2026 • 7:00 PM">
-                </div>
-                <div class="form-row">
-                    <label>Venue & Location</label>
-                    <input type="text" id="venue" placeholder="e.g. SoFi Stadium • Inglewood, CA">
-                </div>
-                <div class="form-row">
-                    <label>Banner Image URL</label>
-                    <input type="text" id="imageUrl">
-                </div>
-            </div>
-
-            <!-- SEATS CARD -->
-            <div class="config-card">
-                <div class="section-header">
-                    <h2>Ticket Seats</h2>
-                    <button class="btn-add-seat" onclick="addSeat()">+ Add Seat</button>
-                </div>
-                <div id="seatsContainer"></div>
-            </div>
-
-            <!-- BILL 1 CARD -->
-            <div class="config-card">
-                <div class="section-header">
-                    <h2>Ownership Bill (Screen 4)</h2>
-                </div>
-                <div class="form-row">
-                    <label>Bill Total ($)</label>
-                    <input type="text" id="bill1Total">
-                </div>
-                <div class="form-row">
-                    <label>Invoice ID Prefix</label>
-                    <input type="text" id="bill1ID">
-                </div>
-                <div class="form-row">
-                    <label>Sender (Current Owner) Name</label>
-                    <input type="text" id="senderName" placeholder="e.g. Michael Scott">
-                </div>
-            </div>
-
-            <!-- BILL 2 CARD -->
-            <div class="config-card">
-                <div class="section-header">
-                    <h2>Venue Claim Fee (Screen 6)</h2>
-                </div>
-                <div class="form-row">
-                    <label>Fee Total ($)</label>
-                    <input type="text" id="bill2Total">
-                </div>
-                <div class="form-row">
-                    <label>Invoice ID Prefix</label>
-                    <input type="text" id="bill2ID">
-                </div>
-                <div class="form-row">
-                    <label>Repurchase Price per Ticket ($)</label>
-                    <input type="text" id="repurchasePrice" placeholder="e.g. 249.00">
-                </div>
-            </div>
-
-            <div style="height: 30px;"></div>
+    <div class="container">
+        <div style="margin-bottom: 20px; text-align: right;">
+            <button
+                style="background:none; color:var(--tm-blue); border:1.5px solid var(--tm-blue); padding:10px 16px; border-radius:6px; font-weight:500; cursor:pointer; font-size:12.5px;"
+                onclick="resetToTemplate()">
+                ↻ Load Boilerplate
+            </button>
+            <p style="font-size: 11.5px; color:#888; margin-top:8px; font-weight:400;">Resets config to the default template.</p>
         </div>
 
-        <div class="fixed-footer">
-            <button class="btn-save" onclick="saveAdminData()">Update Configuration</button>
+        <!-- EVENT DETAILS CARD -->
+        <div class="card">
+            <h2>Event Details</h2>
+            <div class="form-g">
+                <label>Event Name</label>
+                <input type="text" id="eventName" value="BTS WORLD TOUR 'ARIRANG' IN CHICAGO">
+            </div>
+            <div class="form-g">
+                <label>Date String</label>
+                <input type="text" id="eventDate" value="FRI • AUG 28, 2026 • 20:00">
+            </div>
+            <div class="form-g">
+                <label>Venue (displayed on ticket header)</label>
+                <input type="text" id="venue" value="Soldier Field - Chicago, IL">
+            </div>
+            <div class="form-g">
+                <label>Header Image URL</label>
+                <input type="text" id="imageUrl"
+                    value="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&q=80&w=1000">
+            </div>
+            <div class="form-g">
+                <label>Ticket Type Banner</label>
+                <input type="text" id="ticketType" value="ARMY MEMBERSHIP PRESALE">
+            </div>
+        </div>
+
+        <!-- VENUE INFO & MAP CARD -->
+        <div class="card">
+            <h2>Venue Info &amp; Map</h2>
+            <div class="form-g">
+                <label>Venue Name (shown on map card)</label>
+                <input type="text" id="venueName" placeholder="e.g. Soldier Field">
+                <p class="hint">Leave blank to auto-extract from the Venue field above.</p>
+            </div>
+            <div class="form-g">
+                <label>Venue Street Address</label>
+                <input type="text" id="venueAddress" placeholder="e.g. 1410 Special Olympics Dr, Chicago, IL 60605">
+            </div>
+            <div class="form-g">
+                <label>Google Maps Embed URL</label>
+                <textarea id="mapEmbedUrl" rows="3" placeholder="Paste the full Google Maps embed iframe src URL here...&#10;&#10;Go to Google Maps → Share → Embed a map → copy the src=&quot;...&quot; value."></textarea>
+                <p class="hint">On Google Maps: Share → Embed a map → copy the URL inside <code>src="..."</code> of the iframe tag.</p>
+            </div>
+            <div class="form-g">
+                <label>Map Preview</label>
+                <div class="map-preview">
+                    <iframe id="mapPreviewFrame" src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- TICKETS INVENTORY CARD -->
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2 style="margin:0;">Tickets Inventory</h2>
+                <button class="btn-add" onclick="addSeat()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add Seat
+                </button>
+            </div>
+            <div id="seatsContainer"></div>
+        </div>
+
+        <!-- FINANCIAL CARD -->
+        <div class="card">
+            <h2>Financial Configuration</h2>
+            <div class="form-g">
+                <label>Bill 1 (Ownership) Total $</label>
+                <input type="text" id="bill1Total" value="65.00">
+            </div>
+            <div class="form-g">
+                <label>Bill 1 ID Prefix</label>
+                <input type="text" id="bill1ID" value="OWN-7721">
+            </div>
+            <div class="form-g">
+                <label>Bill 2 (Venue Tax) Total $</label>
+                <input type="text" id="bill2Total" value="70.00">
+            </div>
+            <div class="form-g">
+                <label>Bill 2 ID Prefix</label>
+                <input type="text" id="bill2ID" value="V-8821">
+            </div>
+            <div class="form-g">
+                <label>Original Owner Name</label>
+                <input type="text" id="senderName" value="Tony">
+            </div>
+            <div class="form-g">
+                <label>Repurchase Price $</label>
+                <input type="text" id="repurchasePrice" value="250.00">
+            </div>
         </div>
     </div>
 
+    <div class="fixed-bottom">
+        <button class="btn-save" onclick="saveData()">Save All Changes</button>
+    </div>
+
     <script>
-        let seatCount = 0;
+        // Live map preview as the user types
+        document.getElementById('mapEmbedUrl').addEventListener('input', function () {
+            const iframe = document.getElementById('mapPreviewFrame');
+            iframe.src = this.value.trim();
+        });
 
-        function addSeat(sec = '102', row = '15', seat = '') {
-            seatCount++;
-            const div = document.createElement('div');
-            div.className = 'seat-entry';
-            div.id = 'seat_group_' + seatCount;
-            div.innerHTML = `
-            <button class="btn-remove" onclick="removeSeat('${div.id}')">✕</button>
-            <div class="seat-grid">
-                <div class="form-row"><label>Sec</label><input type="text" class="s-sec" value="${sec}"></div>
-                <div class="form-row"><label>Row</label><input type="text" class="s-row" value="${row}"></div>
-                <div class="form-row"><label>Seat</label><input type="text" class="s-num" value="${seat || seatCount}"></div>
-            </div>
-        `;
-            document.getElementById('seatsContainer').appendChild(div);
+        function addSeat(sec = '143', row = '6', num = '1') {
+            const d = document.createElement('div');
+            d.className = 'seat-row';
+            d.innerHTML = `
+                <div><label>Sec</label><input class="i-sec" value="${sec}"></div>
+                <div><label>Row</label><input class="i-row" value="${row}"></div>
+                <div><label>Seat</label><input class="i-num" value="${num}"></div>
+                <button class="btn-red" onclick="this.parentElement.remove()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            `;
+            document.getElementById('seatsContainer').appendChild(d);
         }
 
-        function removeSeat(id) {
-            document.getElementById(id).remove();
-        }
-
-        function saveAdminData() {
-            const seats = [];
-            document.querySelectorAll('.seat-entry').forEach(item => {
-                seats.push({
-                    sec: item.querySelector('.s-sec').value,
-                    row: item.querySelector('.s-row').value,
-                    num: item.querySelector('.s-num').value
-                });
-            });
-
-            const data = {
-                eventName: document.getElementById('eventName').value,
-                eventDate: document.getElementById('eventDate').value,
-                venue: document.getElementById('venue').value,
-                imageUrl: document.getElementById('imageUrl').value,
-                seats: seats,
-                bill1Total: document.getElementById('bill1Total').value,
-                bill1ID: document.getElementById('bill1ID').value,
-                senderName: document.getElementById('senderName').value,
-                bill2Total: document.getElementById('bill2Total').value,
-                bill2ID: document.getElementById('bill2ID').value,
-                repurchasePrice: document.getElementById('repurchasePrice').value
-            };
-            localStorage.setItem('tm_ticket_data_v2', JSON.stringify(data));
-            alert('Configuration saved!');
-        }
-
-        window.onload = () => {
+        function loadData() {
             const saved = localStorage.getItem('tm_ticket_data_v2');
             if (saved) {
                 const data = JSON.parse(saved);
-                document.getElementById('eventName').value = data.eventName;
-                document.getElementById('eventDate').value = data.eventDate;
-                document.getElementById('venue').value = data.venue;
-                document.getElementById('imageUrl').value = data.imageUrl;
-                document.getElementById('bill1Total').value = data.bill1Total;
-                document.getElementById('bill1ID').value = data.bill1ID;
+                document.getElementById('eventName').value = data.eventName || '';
+                document.getElementById('eventDate').value = data.eventDate || '';
+                document.getElementById('venue').value = data.venue || '';
+                document.getElementById('imageUrl').value = data.imageUrl || '';
+                document.getElementById('ticketType').value = data.ticketType || 'ARMY MEMBERSHIP PRESALE';
+                document.getElementById('bill1Total').value = data.bill1Total || '';
+                document.getElementById('bill1ID').value = data.bill1ID || '';
+                document.getElementById('bill2Total').value = data.bill2Total || '';
+                document.getElementById('bill2ID').value = data.bill2ID || '';
                 document.getElementById('senderName').value = data.senderName || 'Current Owner';
-                document.getElementById('bill2Total').value = data.bill2Total;
-                document.getElementById('bill2ID').value = data.bill2ID;
                 document.getElementById('repurchasePrice').value = data.repurchasePrice || '250.00';
+
+                // Venue map fields
+                document.getElementById('venueName').value = data.venueName || '';
+                document.getElementById('venueAddress').value = data.venueAddress || '';
+                const mapUrl = data.mapEmbedUrl || '';
+                document.getElementById('mapEmbedUrl').value = mapUrl;
+                if (mapUrl) document.getElementById('mapPreviewFrame').src = mapUrl;
 
                 data.seats.forEach(s => addSeat(s.sec, s.row, s.num));
             } else {
-                addSeat('102', '15', '3');
-                addSeat('102', '15', '4');
+                addSeat('143', '6', '1'); addSeat('143', '6', '2');
+                addSeat('143', '6', '3'); addSeat('143', '6', '4');
             }
-        };
+        }
+
+        function saveData() {
+            const btn = document.querySelector('.btn-save');
+            btn.innerHTML = 'Saving...';
+            btn.style.opacity = '0.7';
+
+            setTimeout(() => {
+                const seats = [];
+                document.querySelectorAll('.seat-row').forEach(r => {
+                    seats.push({
+                        sec: r.querySelector('.i-sec').value,
+                        row: r.querySelector('.i-row').value,
+                        num: r.querySelector('.i-num').value
+                    });
+                });
+
+                const data = {
+                    eventName: document.getElementById('eventName').value,
+                    eventDate: document.getElementById('eventDate').value,
+                    venue: document.getElementById('venue').value,
+                    imageUrl: document.getElementById('imageUrl').value,
+                    ticketType: document.getElementById('ticketType').value,
+                    bill1Total: document.getElementById('bill1Total').value,
+                    bill1ID: document.getElementById('bill1ID').value,
+                    bill2Total: document.getElementById('bill2Total').value,
+                    bill2ID: document.getElementById('bill2ID').value,
+                    senderName: document.getElementById('senderName').value,
+                    repurchasePrice: document.getElementById('repurchasePrice').value,
+                    venueName: document.getElementById('venueName').value,
+                    venueAddress: document.getElementById('venueAddress').value,
+                    mapEmbedUrl: document.getElementById('mapEmbedUrl').value.trim(),
+                    seats
+                };
+
+                localStorage.setItem('tm_ticket_data_v2', JSON.stringify(data));
+
+                btn.innerHTML = 'Saved ✓';
+                btn.style.background = '#10b981';
+                btn.style.opacity = '1';
+                setTimeout(() => {
+                    btn.innerHTML = 'Save All Changes';
+                    btn.style.background = 'var(--tm-blue)';
+                }, 1500);
+            }, 300);
+        }
+
+        function resetToTemplate() {
+            if (confirm("Reset to boilerplate? This will replace your current configuration.")) {
+                localStorage.removeItem('tm_ticket_data_v2');
+                location.reload();
+            }
+        }
+
+        window.onload = loadData;
     </script>
 </body>
 
