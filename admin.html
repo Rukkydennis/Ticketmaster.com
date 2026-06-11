@@ -13,7 +13,7 @@
     <link rel="apple-touch-icon" href="icon.png?v=3">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
         :root {
             --tm-blue: #0250d4;
@@ -26,7 +26,8 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Averta', 'Avenir Next', 'Avenir', 'Inter', -apple-system, sans-serif;
+            font-weight: 400;
             -webkit-tap-highlight-color: transparent;
             outline: none;
         }
@@ -40,7 +41,6 @@
         header {
             background: #1c1c1e;
             color: #fff;
-            /* Extra top padding for mobile safe area & notch! Gives plenty of space! */
             padding: calc(max(var(--safe-top), 20px) + 16px) 16px 16px 16px;
             text-align: center;
             position: sticky;
@@ -52,12 +52,11 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
-        /* Improved tappable hit-box for the back button */
         .btn-back {
             color: #fff;
             text-decoration: none;
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 6px;
@@ -66,7 +65,7 @@
         }
 
         .header-title {
-            font-weight: 900;
+            font-weight: 600;
             font-size: 16px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -88,11 +87,11 @@
         }
 
         h2 {
-            font-size: 13.5px;
+            font-size: 13px;
             text-transform: uppercase;
             margin-bottom: 20px;
             color: #111;
-            font-weight: 900;
+            font-weight: 600;
             letter-spacing: 0.5px;
             display: flex;
             align-items: center;
@@ -106,36 +105,69 @@
             background: var(--tm-blue);
             margin-right: 12px;
             border-radius: 4px;
+            flex-shrink: 0;
         }
 
         .form-g {
             margin-bottom: 20px;
         }
 
-        .form-g label {
-            display: block;
-            font-size: 11.5px;
-            font-weight: 800;
-            color: #666;
-            margin-bottom: 8px;
-            text-transform: uppercase;
+        .form-g:last-child {
+            margin-bottom: 0;
         }
 
-        .form-g input {
+        .form-g label {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            color: #888;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .form-g input,
+        .form-g textarea {
             width: 100%;
-            padding: 14px 16px;
+            padding: 13px 14px;
             border: 1.5px solid #e0e0e0;
             border-radius: 8px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 400;
             color: #111;
             transition: border-color 0.2s;
             background: #fdfdfd;
+            resize: none;
         }
 
-        .form-g input:focus {
+        .form-g input:focus,
+        .form-g textarea:focus {
             border-color: var(--tm-blue);
             background: #fff;
+            outline: none;
+        }
+
+        .form-g .hint {
+            font-size: 11.5px;
+            color: #aaa;
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .map-preview {
+            width: 100%;
+            height: 160px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 12px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .map-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
         .seat-row {
@@ -149,7 +181,7 @@
             align-items: flex-end;
         }
 
-        .seat-row>div {
+        .seat-row > div {
             flex: 1;
         }
 
@@ -157,7 +189,7 @@
             display: block;
             font-size: 10.5px;
             color: #888;
-            font-weight: 800;
+            font-weight: 500;
             margin-bottom: 6px;
             text-transform: uppercase;
         }
@@ -168,7 +200,7 @@
             border: 1.5px solid #ddd;
             border-radius: 6px;
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 400;
         }
 
         .btn-red {
@@ -178,12 +210,13 @@
             padding: 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: 900;
+            font-weight: 500;
             font-size: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background 0.2s;
+            flex-shrink: 0;
         }
 
         .btn-red:active {
@@ -196,7 +229,7 @@
             border: none;
             padding: 8px 16px;
             border-radius: 20px;
-            font-weight: 800;
+            font-weight: 500;
             font-size: 12px;
             text-transform: uppercase;
             cursor: pointer;
@@ -222,9 +255,9 @@
         .btn-save {
             background: var(--tm-blue);
             color: #fff;
-            font-size: 16px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.4px;
             padding: 18px;
             border: none;
             border-radius: 8px;
@@ -239,33 +272,39 @@
             opacity: 0.9;
             transform: scale(0.99);
         }
+
+        .section-divider {
+            height: 1px;
+            background: #f0f0f0;
+            margin: 16px 0;
+        }
     </style>
 </head>
 
 <body>
     <header>
         <a href="index.html" class="btn-back">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path d="M15 18l-6-6 6-6" />
             </svg>
             Back
         </a>
         <div class="header-title">Admin Config</div>
-        <div style="width: 70px;"></div> <!-- Spacer to preserve flex centering -->
+        <div style="width: 70px;"></div>
     </header>
 
     <div class="container">
         <div style="margin-bottom: 20px; text-align: right;">
             <button
-                style="background:none; color:var(--tm-blue); border:1.5px solid var(--tm-blue); padding:10px 16px; border-radius:6px; font-weight:800; cursor:pointer; font-size:12.5px;"
+                style="background:none; color:var(--tm-blue); border:1.5px solid var(--tm-blue); padding:10px 16px; border-radius:6px; font-weight:500; cursor:pointer; font-size:12.5px;"
                 onclick="resetToTemplate()">
-                ↻ LOAD BOILERPLATE EXAMPLE
+                ↻ Load Boilerplate
             </button>
-            <p style="font-size: 11.5px; color:#666; margin-top:8px; font-weight:600;">Overrides your config with a
-                perfect template to make editing easier.</p>
+            <p style="font-size: 11.5px; color:#888; margin-top:8px; font-weight:400;">Resets config to the default template.</p>
         </div>
 
+        <!-- EVENT DETAILS CARD -->
         <div class="card">
             <h2>Event Details</h2>
             <div class="form-g">
@@ -277,7 +316,7 @@
                 <input type="text" id="eventDate" value="FRI • AUG 28, 2026 • 20:00">
             </div>
             <div class="form-g">
-                <label>Venue</label>
+                <label>Venue (displayed on ticket header)</label>
                 <input type="text" id="venue" value="Soldier Field - Chicago, IL">
             </div>
             <div class="form-g">
@@ -291,6 +330,32 @@
             </div>
         </div>
 
+        <!-- VENUE INFO & MAP CARD -->
+        <div class="card">
+            <h2>Venue Info &amp; Map</h2>
+            <div class="form-g">
+                <label>Venue Name (shown on map card)</label>
+                <input type="text" id="venueName" placeholder="e.g. Soldier Field">
+                <p class="hint">Leave blank to auto-extract from the Venue field above.</p>
+            </div>
+            <div class="form-g">
+                <label>Venue Street Address</label>
+                <input type="text" id="venueAddress" placeholder="e.g. 1410 Special Olympics Dr, Chicago, IL 60605">
+            </div>
+            <div class="form-g">
+                <label>Google Maps Embed URL</label>
+                <textarea id="mapEmbedUrl" rows="3" placeholder="Paste the full Google Maps embed iframe src URL here...&#10;&#10;Go to Google Maps → Share → Embed a map → copy the src=&quot;...&quot; value."></textarea>
+                <p class="hint">On Google Maps: Share → Embed a map → copy the URL inside <code>src="..."</code> of the iframe tag.</p>
+            </div>
+            <div class="form-g">
+                <label>Map Preview</label>
+                <div class="map-preview">
+                    <iframe id="mapPreviewFrame" src="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- TICKETS INVENTORY CARD -->
         <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
                 <h2 style="margin:0;">Tickets Inventory</h2>
@@ -300,12 +365,13 @@
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
-                    Seat
+                    Add Seat
                 </button>
             </div>
             <div id="seatsContainer"></div>
         </div>
 
+        <!-- FINANCIAL CARD -->
         <div class="card">
             <h2>Financial Configuration</h2>
             <div class="form-g">
@@ -340,6 +406,12 @@
     </div>
 
     <script>
+        // Live map preview as the user types
+        document.getElementById('mapEmbedUrl').addEventListener('input', function () {
+            const iframe = document.getElementById('mapPreviewFrame');
+            iframe.src = this.value.trim();
+        });
+
         function addSeat(sec = '143', row = '6', num = '1') {
             const d = document.createElement('div');
             d.className = 'seat-row';
@@ -358,17 +430,24 @@
             const saved = localStorage.getItem('tm_ticket_data_v2');
             if (saved) {
                 const data = JSON.parse(saved);
-                document.getElementById('eventName').value = data.eventName;
-                document.getElementById('eventDate').value = data.eventDate;
-                document.getElementById('venue').value = data.venue;
-                document.getElementById('imageUrl').value = data.imageUrl;
+                document.getElementById('eventName').value = data.eventName || '';
+                document.getElementById('eventDate').value = data.eventDate || '';
+                document.getElementById('venue').value = data.venue || '';
+                document.getElementById('imageUrl').value = data.imageUrl || '';
                 document.getElementById('ticketType').value = data.ticketType || 'ARMY MEMBERSHIP PRESALE';
-                document.getElementById('bill1Total').value = data.bill1Total;
-                document.getElementById('bill1ID').value = data.bill1ID;
-                document.getElementById('bill2Total').value = data.bill2Total;
-                document.getElementById('bill2ID').value = data.bill2ID;
+                document.getElementById('bill1Total').value = data.bill1Total || '';
+                document.getElementById('bill1ID').value = data.bill1ID || '';
+                document.getElementById('bill2Total').value = data.bill2Total || '';
+                document.getElementById('bill2ID').value = data.bill2ID || '';
                 document.getElementById('senderName').value = data.senderName || 'Current Owner';
                 document.getElementById('repurchasePrice').value = data.repurchasePrice || '250.00';
+
+                // Venue map fields
+                document.getElementById('venueName').value = data.venueName || '';
+                document.getElementById('venueAddress').value = data.venueAddress || '';
+                const mapUrl = data.mapEmbedUrl || '';
+                document.getElementById('mapEmbedUrl').value = mapUrl;
+                if (mapUrl) document.getElementById('mapPreviewFrame').src = mapUrl;
 
                 data.seats.forEach(s => addSeat(s.sec, s.row, s.num));
             } else {
@@ -385,8 +464,13 @@
             setTimeout(() => {
                 const seats = [];
                 document.querySelectorAll('.seat-row').forEach(r => {
-                    seats.push({ sec: r.querySelector('.i-sec').value, row: r.querySelector('.i-row').value, num: r.querySelector('.i-num').value });
+                    seats.push({
+                        sec: r.querySelector('.i-sec').value,
+                        row: r.querySelector('.i-row').value,
+                        num: r.querySelector('.i-num').value
+                    });
                 });
+
                 const data = {
                     eventName: document.getElementById('eventName').value,
                     eventDate: document.getElementById('eventDate').value,
@@ -399,8 +483,12 @@
                     bill2ID: document.getElementById('bill2ID').value,
                     senderName: document.getElementById('senderName').value,
                     repurchasePrice: document.getElementById('repurchasePrice').value,
+                    venueName: document.getElementById('venueName').value,
+                    venueAddress: document.getElementById('venueAddress').value,
+                    mapEmbedUrl: document.getElementById('mapEmbedUrl').value.trim(),
                     seats
                 };
+
                 localStorage.setItem('tm_ticket_data_v2', JSON.stringify(data));
 
                 btn.innerHTML = 'Saved ✓';
@@ -414,7 +502,7 @@
         }
 
         function resetToTemplate() {
-            if (confirm("Are you sure you want to load the boilerplate template? This will replace your current configuration.")) {
+            if (confirm("Reset to boilerplate? This will replace your current configuration.")) {
                 localStorage.removeItem('tm_ticket_data_v2');
                 location.reload();
             }

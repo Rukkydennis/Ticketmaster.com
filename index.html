@@ -16,7 +16,7 @@
     <link rel="apple-touch-icon" href="icon.png?v=3">
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
         :root {
             --tm-blue: #0250d4;
@@ -30,7 +30,8 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Averta', 'Avenir Next', 'Avenir', 'Inter', -apple-system, sans-serif;
+            font-weight: 400;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -135,7 +136,7 @@
 
         .info-date {
             font-size: 11.5px;
-            font-weight: 800;
+            font-weight: 500;
             letter-spacing: 0.5px;
             color: #fff;
             margin: 0;
@@ -154,11 +155,11 @@
 
         .info-title {
             font-size: 21px;
-            font-weight: 900;
+            font-weight: 600;
             line-height: 1.15;
             margin-bottom: 24px;
             text-transform: uppercase;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
             color: #fff;
             overflow-wrap: break-word;
         }
@@ -176,7 +177,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-weight: 800;
+            font-weight: 500;
             color: #fff;
             font-size: 17px;
         }
@@ -199,9 +200,9 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
-            padding: 14px 14px; /* Taller button */
+            padding: 14px 14px;
             font-size: 14.5px;
-            font-weight: 800;
+            font-weight: 500;
             width: 100%;
             cursor: pointer;
             letter-spacing: 0.2px;
@@ -225,7 +226,7 @@
             text-align: center;
             padding: 16px 0;
             font-size: 14px;
-            font-weight: 800;
+            font-weight: 400;
             color: #666;
             position: relative;
         }
@@ -242,6 +243,7 @@
 
         .tab.active {
             color: #000;
+            font-weight: 600;
         }
 
         .tab.active::after {
@@ -260,7 +262,7 @@
 
         .order-number {
             font-size: 19px;
-            font-weight: 900;
+            font-weight: 600;
             margin-bottom: 4px;
             letter-spacing: -0.2px;
         }
@@ -288,14 +290,14 @@
         }
 
         .ticket-presale-banner {
-            background: #e6e6e6; /* Darker grey */
+            background: #e6e6e6;
             color: #000;
             font-size: 11px;
-            font-weight: 800;
-            padding: 12px 20px; /* More compact banner */
+            font-weight: 500;
+            padding: 12px 20px;
             text-transform: uppercase;
             letter-spacing: 0.6px;
-            border-radius: 0; /* Remove rounded corners */
+            border-radius: 0;
         }
 
         .ticket-seats-row {
@@ -326,14 +328,14 @@
         .ts-lbl {
             font-size: 10px;
             color: #666;
-            font-weight: 900;
+            font-weight: 500;
             margin-bottom: 2px;
             text-transform: uppercase;
         }
 
         .ts-val {
             font-size: 19px;
-            font-weight: 900;
+            font-weight: 600;
             color: #000;
             letter-spacing: -0.5px;
         }
@@ -439,7 +441,7 @@
         .sheet-header {
             text-align: center;
             font-size: 12.5px;
-            font-weight: 900;
+            font-weight: 700;
             padding: 2px 0 16px;
             border-bottom: 1px solid #f0f0f0;
             text-transform: uppercase;
@@ -482,7 +484,7 @@
             color: #fff;
             text-align: center;
             font-size: 10px;
-            font-weight: 800;
+            font-weight: 700;
             padding: 10px 0;
         }
 
@@ -542,7 +544,7 @@
             border: none;
             color: #aaa;
             font-size: 14.5px;
-            font-weight: 800;
+            font-weight: 700;
             text-transform: uppercase;
         }
 
@@ -564,7 +566,7 @@
         .input-group label {
             display: block;
             font-size: 12.5px;
-            font-weight: 800;
+            font-weight: 700;
             color: #555;
             margin-bottom: 8px;
         }
@@ -602,7 +604,7 @@
             border: none;
             color: var(--tm-blue);
             font-size: 16px;
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -646,7 +648,7 @@
             border-bottom: 1.5px solid #e0e0e0;
             padding-bottom: 12px;
             margin-bottom: 12px;
-            font-weight: 800;
+            font-weight: 700;
             font-size: 13.5px;
             display: flex;
             justify-content: space-between;
@@ -666,7 +668,7 @@
             padding-top: 16px;
             display: flex;
             justify-content: space-between;
-            font-weight: 900;
+            font-weight: 700;
             font-size: 19px;
             color: #000;
         }
@@ -693,7 +695,7 @@
         }
 
         .alert-title {
-            font-weight: 900;
+            font-weight: 700;
             margin-bottom: 8px;
             color: #d32f2f;
             font-size: 15px;
@@ -749,6 +751,182 @@
             align-items: center;
             justify-content: center;
             font-size: 36px;
+        }
+
+        /* EXTRA SECTIONS STYLING */
+        .extra-sections-container {
+            padding: 0 16px 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .wallet-section {
+            display: flex;
+            justify-content: center;
+            margin: 8px 0;
+        }
+
+        .apple-wallet-btn {
+            background: #000;
+            color: #fff;
+            border: 1px solid #777;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .apple-wallet-btn:active {
+            background: #222;
+            transform: scale(0.98);
+        }
+
+        .wallet-icon {
+            flex-shrink: 0;
+        }
+
+        .details-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .section-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            padding-left: 4px;
+        }
+
+        .venue-card, .info-card, .order-details-card {
+            background: #f8f9fa;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .venue-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .venue-address {
+            font-size: 13.5px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        .map-iframe-container {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            height: 200px;
+        }
+
+        .directions-btn {
+            background: #fff;
+            color: var(--tm-blue);
+            border: 1.5px solid var(--tm-blue);
+            border-radius: 6px;
+            text-align: center;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .directions-btn:active {
+            background: #f0f5ff;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-item:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .info-item-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .info-item-desc {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .od-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13.5px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #e5e5e5;
+        }
+
+        .od-row:last-of-type {
+            border-bottom: none;
+            padding-bottom: 4px;
+        }
+
+        .od-lbl {
+            color: #777;
+            font-weight: 500;
+        }
+
+        .od-val {
+            color: #111;
+            font-weight: 700;
+        }
+
+        .od-help {
+            text-align: center;
+            font-size: 12.5px;
+            color: #888;
+            margin-top: 6px;
+        }
+
+        .od-help-link {
+            color: var(--tm-blue);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .od-help-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -851,6 +1029,86 @@
 
         <div id="ticketListCont">
             <!-- tickets injected here -->
+        </div>
+
+        <!-- Apple Wallet, Map, Venue & Event details, Order Details -->
+        <div class="extra-sections-container">
+            <!-- Add to Apple Wallet Button -->
+            <div class="wallet-section">
+                <a href="#" class="apple-wallet-btn" onclick="alert('Pass saved to Apple Wallet.')">
+                    <svg class="wallet-icon" width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0.5" y="0.5" width="13" height="15" rx="1.5" fill="#FF453A" stroke="black" stroke-width="1"/>
+                        <rect x="3.5" y="2.5" width="13" height="15" rx="1.5" fill="#FF9F0A" stroke="black" stroke-width="1"/>
+                        <rect x="6.5" y="4.5" width="13" height="15" rx="1.5" fill="#0A84FF" stroke="black" stroke-width="1"/>
+                    </svg>
+                    <span>Add to Apple Wallet</span>
+                </a>
+            </div>
+
+            <!-- Venue & Map Section -->
+            <div class="details-section">
+                <h3 class="section-title">Venue Info</h3>
+                <div class="venue-card">
+                    <div class="venue-details-top">
+                        <div class="venue-info-text">
+                            <h4 id="mapVenueName" class="venue-name">Soldier Field</h4>
+                            <p id="mapVenueAddress" class="venue-address">1410 Special Olympics Dr, Chicago, IL 60605</p>
+                        </div>
+                    </div>
+                    <!-- Dynamic Google Map iframe -->
+                    <div class="map-iframe-container">
+                        <iframe id="venueMapIframe" src="" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <a id="getDirectionsBtn" href="#" target="_blank" class="directions-btn">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+
+            <!-- Event & Security Info -->
+            <div class="details-section">
+                <h3 class="section-title">Event Info</h3>
+                <div class="info-card">
+                    <div class="info-item">
+                        <h4 class="info-item-title">Event Time</h4>
+                        <p id="eventTimeDetail" class="info-item-desc">Friday, August 28, 2026 at 8:00 PM</p>
+                    </div>
+                    <div class="info-item">
+                        <h4 class="info-item-title">Entry Instructions</h4>
+                        <p class="info-item-desc">Doors open 90 minutes prior to showtime. Please arrive early to clear security checkpoints. Mobile tickets will be scanned at the gate.</p>
+                    </div>
+                    <div class="info-item">
+                        <h4 class="info-item-title">Bags & Security Policy</h4>
+                        <p class="info-item-desc">The venue enforces a clear bag policy. Approved bags include clear plastic bags not exceeding 12" x 6" x 12", or small clutch bags not exceeding 4.5" x 6.5".</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary Section -->
+            <div class="details-section">
+                <h3 class="section-title">Order Details</h3>
+                <div class="order-details-card">
+                    <div class="od-row">
+                        <span class="od-lbl">Order Number</span>
+                        <span id="odNum" class="od-val">37-58429/CH1</span>
+                    </div>
+                    <div class="od-row">
+                        <span class="od-lbl">Purchase Date</span>
+                        <span id="odDate" class="od-val">June 11, 2026</span>
+                    </div>
+                    <div class="od-row">
+                        <span class="od-lbl">Delivery Method</span>
+                        <span class="od-val">Mobile Entry (Go Mobile)</span>
+                    </div>
+                    <div class="od-row">
+                        <span class="od-lbl">Ticket Status</span>
+                        <span class="od-val" style="color: #10b981; font-weight: 700;">Verified & Valid</span>
+                    </div>
+                    <div class="od-help">
+                        Need help? <a href="#" onclick="alert('Ticketmaster support will contact you.')" class="od-help-link">Contact Customer Support</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div style="height: 120px; flex-shrink: 0;"></div>
@@ -1162,6 +1420,53 @@
                     <button style="background:#10b981; color:#fff; border:none; padding:8px 16px; border-radius:6px; font-weight:800; margin-top:8px; cursor:pointer;" onclick="this.innerText='Added'">Add</button></div>
                 </div>`;
             });
+            // Update Google Maps & Venue Details from dedicated fields
+            const mapIframe = document.getElementById('venueMapIframe');
+            if (mapIframe) {
+                if (cfg.mapEmbedUrl && cfg.mapEmbedUrl.trim()) {
+                    // Use the custom embed URL set by admin
+                    mapIframe.src = cfg.mapEmbedUrl.trim();
+                } else {
+                    // Fallback: auto-generate from venue name
+                    mapIframe.src = `https://maps.google.com/maps?q=${encodeURIComponent(cfg.venue)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+                }
+            }
+
+            const directionsBtn = document.getElementById('getDirectionsBtn');
+            if (directionsBtn) {
+                const dirQuery = cfg.venueAddress || cfg.venueName || cfg.venue;
+                directionsBtn.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dirQuery)}`;
+            }
+
+            // Venue name: use dedicated field, else parse from venue string
+            let displayVenueName = cfg.venueName || '';
+            let displayVenueAddr = cfg.venueAddress || '';
+            if (!displayVenueName) {
+                if (cfg.venue.includes(' - ')) {
+                    displayVenueName = cfg.venue.split(' - ')[0];
+                    displayVenueAddr = displayVenueAddr || cfg.venue.split(' - ')[1];
+                } else {
+                    displayVenueName = cfg.venue;
+                }
+            }
+
+            const mapVenueName = document.getElementById('mapVenueName');
+            if (mapVenueName) mapVenueName.innerText = displayVenueName;
+            const mapVenueAddress = document.getElementById('mapVenueAddress');
+            if (mapVenueAddress) mapVenueAddress.innerText = displayVenueAddr;
+
+            const eventTimeDetail = document.getElementById('eventTimeDetail');
+            if (eventTimeDetail) eventTimeDetail.innerText = cfg.eventDate;
+
+            const odNum = document.getElementById('odNum');
+            const oId = document.getElementById('oId');
+            if (odNum && oId) odNum.innerText = oId.innerText;
+
+            const odDate = document.getElementById('odDate');
+            if (odDate) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                odDate.innerText = new Date().toLocaleDateString('en-US', options);
+            }
         }
 
         window.onload = init;
